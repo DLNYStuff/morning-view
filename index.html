@@ -90,7 +90,6 @@
   header h1 { font-size: 12px; font-weight: 600; color: var(--text3); letter-spacing: 0.10em; text-transform: uppercase; }
   #header-date { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--text3); }
 
-  /* ── TOP GRID — 2x2 on mobile, 4-col on desktop ── */
   .grid-top {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -111,19 +110,13 @@
     flex-direction: column;
   }
 
-  .card-header {
-    padding: 9px 13px 8px;
-    display: flex; align-items: center; gap: 6px;
-  }
-
+  .card-header { padding: 9px 13px 8px; display: flex; align-items: center; gap: 6px; }
   .card-header svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
   .card-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
   .card-body { padding: 12px 13px 14px; flex: 1; }
-
   .card-value { font-size: 26px; font-weight: 500; color: var(--text); line-height: 1; margin-bottom: 5px; white-space: nowrap; }
   .card-sub { font-size: 13px; font-weight: 600; color: var(--text2); line-height: 1.4; }
 
-  /* Mobile: slightly smaller values so nothing clips */
   @media (max-width: 400px) {
     .card-value { font-size: 22px; }
     .card-sub { font-size: 12px; }
@@ -151,7 +144,19 @@
   .asp-effect    { color: var(--asp-eff); }
   .asp-na        { color: var(--text3); }
 
-  /* ── WEEK CARD ── */
+  /* ASP status indicator dot */
+  .asp-live-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    margin-left: 6px;
+    vertical-align: middle;
+    background: #3B6D11;
+  }
+  .asp-live-dot.loading { background: #BA7517; animation: pulse 1s infinite; }
+  .asp-live-dot.error   { background: #E24B4A; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
   .asp-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -160,11 +165,7 @@
     margin-top: 10px;
   }
 
-  .asp-card-header {
-    padding: 9px 13px 8px;
-    display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
-  }
-
+  .asp-card-header { padding: 9px 13px 8px; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
   .asp-card-header-left { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
   .asp-card-header-left svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -175,59 +176,25 @@
 
   .asp-card-body { padding: 10px 10px 12px; }
 
-  .week-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-  }
+  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 
-  .day-cell {
-    border-radius: 8px;
-    padding: 7px 2px 6px;
-    text-align: center;
-    border: 1px solid var(--border);
-    min-width: 0;
-  }
+  .day-cell { border-radius: 8px; padding: 7px 2px 6px; text-align: center; border: 1px solid var(--border); min-width: 0; }
+  .day-cell.today { border: 2.5px solid var(--today-border); background: var(--today-bg); }
 
-  .day-cell.today {
-    border: 2.5px solid var(--today-border);
-    background: var(--today-bg);
-  }
-
-  .day-name {
-    font-size: 10px; font-weight: 600;
-    color: var(--text3);
-    margin-bottom: 3px;
-    letter-spacing: 0.03em;
-    white-space: nowrap;
-  }
-
+  .day-name { font-size: 10px; font-weight: 600; color: var(--text3); margin-bottom: 3px; letter-spacing: 0.03em; white-space: nowrap; }
   .day-cell.today .day-name { font-weight: 700; color: var(--today-text); }
 
-  .day-num {
-    font-size: 14px; font-weight: 500;
-    color: var(--text);
-    font-family: var(--mono);
-    margin-bottom: 4px;
-    line-height: 1;
-  }
-
+  .day-num { font-size: 14px; font-weight: 500; color: var(--text); font-family: var(--mono); margin-bottom: 4px; line-height: 1; }
   .day-cell.today .day-num { font-weight: 700; color: var(--today-text); font-size: 15px; }
 
-  .asp-badge {
-    display: inline-block;
-    font-size: 8px; font-weight: 700;
-    padding: 2px 4px;
-    border-radius: 4px;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-  }
-
+  .asp-badge { display: inline-block; font-size: 8px; font-weight: 700; padding: 2px 4px; border-radius: 4px; letter-spacing: 0.02em; white-space: nowrap; }
   .badge-suspended { background: var(--badge-sus-bg); color: var(--badge-sus-fg); }
   .badge-effect    { background: var(--badge-eff-bg); color: var(--badge-eff-fg); }
   .badge-na        { background: var(--bg); color: var(--text3); border: 1px solid var(--border-strong); }
 
   .holiday-label { font-size: 8px; font-weight: 600; color: var(--holiday-fg); margin-top: 3px; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+
+  .asp-source { font-size: 10px; font-weight: 500; color: var(--text3); margin-top: 8px; text-align: right; }
 
   footer { margin-top: 20px; text-align: center; font-size: 11px; font-weight: 500; color: var(--text3); border-top: 1px solid var(--border); padding-top: 14px; }
 </style>
@@ -266,6 +233,7 @@
     <div class="card-header hdr-amber">
       <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h2a2 2 0 0 1 0 4h-2"/><line x1="1" y1="16" x2="4" y2="16"/><line x1="9" y1="16" x2="12" y2="16"/></svg>
       <span class="card-label">ASP Today</span>
+      <span class="asp-live-dot loading" id="asp-dot" title="Loading ASP data..."></span>
     </div>
     <div class="card-body">
       <div class="card-value asp-na" id="today-asp-value" style="font-size:20px;font-family:var(--font);font-weight:600;">—</div>
@@ -303,16 +271,79 @@
   </div>
   <div class="asp-card-body">
     <div class="week-grid" id="week-grid"></div>
+    <div class="asp-source" id="asp-source"></div>
   </div>
 </div>
 
-<footer>New York City &nbsp;·&nbsp; ASP 2026 &nbsp;·&nbsp; Weather via Open-Meteo</footer>
+<footer>New York City &nbsp;·&nbsp; Weather via Open-Meteo &nbsp;·&nbsp; ASP via NYC Open Data</footer>
 
 <script>
-const ASP={"2026-01-01":"New Year's Day","2026-01-06":"Three Kings' Day","2026-01-19":"MLK Jr. Day","2026-02-12":"Lincoln's Birthday","2026-02-16":"Washington's Bday","2026-02-17":"Lunar New Year","2026-02-18":"Ash Wednesday","2026-04-03":"Good Friday","2026-04-08":"Passover (7th)","2026-04-09":"Passover (8th)","2026-05-25":"Memorial Day","2026-06-19":"Juneteenth","2026-07-03":"Independence Day","2026-07-04":"Independence Day","2026-07-23":"Tisha B'Av","2026-08-15":"Feast of Assumption","2026-09-07":"Labor Day","2026-09-12":"Rosh Hashanah","2026-09-13":"Rosh Hashanah","2026-09-21":"Yom Kippur","2026-09-26":"Sukkot","2026-09-27":"Sukkot","2026-10-03":"Shemini Atzeret","2026-10-04":"Simchas Torah","2026-10-08":"Diwali","2026-10-12":"Indigenous Peoples' Day","2026-11-01":"All Saints' Day","2026-11-03":"Election Day","2026-11-11":"Veterans Day","2026-11-26":"Thanksgiving"};
+// ── FALLBACK hardcoded 2026 dates (used if API is down) ──
+const ASP_FALLBACK={
+  "2026-01-01":"New Year's Day","2026-01-06":"Three Kings' Day","2026-01-19":"MLK Jr. Day",
+  "2026-02-12":"Lincoln's Birthday","2026-02-16":"Washington's Bday","2026-02-17":"Lunar New Year",
+  "2026-02-18":"Ash Wednesday","2026-04-03":"Good Friday","2026-04-08":"Passover (7th)",
+  "2026-04-09":"Passover (8th)","2026-05-25":"Memorial Day","2026-06-19":"Juneteenth",
+  "2026-07-03":"Independence Day","2026-07-04":"Independence Day","2026-07-23":"Tisha B'Av",
+  "2026-08-15":"Feast of Assumption","2026-09-07":"Labor Day","2026-09-12":"Rosh Hashanah",
+  "2026-09-13":"Rosh Hashanah","2026-09-21":"Yom Kippur","2026-09-26":"Sukkot",
+  "2026-09-27":"Sukkot","2026-10-03":"Shemini Atzeret","2026-10-04":"Simchas Torah",
+  "2026-10-08":"Diwali","2026-10-12":"Indigenous Peoples' Day","2026-11-01":"All Saints' Day",
+  "2026-11-03":"Election Day","2026-11-11":"Veterans Day","2026-11-26":"Thanksgiving"
+};
+
+// Live ASP data from NYC Open Data
+let aspSuspensions = { ...ASP_FALLBACK };
+let aspDataSource = 'fallback';
+
+async function fetchASPData() {
+  const dot = document.getElementById('asp-dot');
+  const src = document.getElementById('asp-source');
+  try {
+    // Fetch next 400 suspension records from NYC Open Data
+    const res = await fetch('https://data.cityofnewyork.us/resource/rc75-m7u3.json?$limit=400&$order=suspended_date%20ASC');
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    if (!data || data.length === 0) throw new Error('No data');
+
+    // Build lookup from API response
+    const live = {};
+    data.forEach(item => {
+      if (item.suspended_date && item.reason) {
+        // Date comes as "2026-01-01T00:00:00.000" — take first 10 chars
+        const key = item.suspended_date.substring(0, 10);
+        live[key] = item.reason;
+      }
+    });
+
+    aspSuspensions = live;
+    aspDataSource = 'live';
+    dot.className = 'asp-live-dot';
+    dot.title = 'Live data from NYC Open Data';
+    src.textContent = 'Live · NYC Open Data';
+
+  } catch(e) {
+    // Fall back to hardcoded
+    aspSuspensions = { ...ASP_FALLBACK };
+    aspDataSource = 'fallback';
+    dot.className = 'asp-live-dot error';
+    dot.title = 'Using cached data — NYC API unavailable';
+    src.textContent = 'Cached · 2026 schedule';
+  }
+
+  // Re-render everything with fresh data
+  updateTodayAsp();
+  renderWeek();
+}
 
 function toKey(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
-function getAsp(date){const key=toKey(date),dow=date.getDay();if(ASP[key])return{s:'suspended',r:ASP[key]};if(dow===0||dow===6||dow===3)return{s:'na',r:dow===3?'Wednesday':'Weekend'};return{s:'effect',r:'In effect'};}
+
+function getAsp(date){
+  const key=toKey(date),dow=date.getDay();
+  if(aspSuspensions[key]) return{s:'suspended',r:aspSuspensions[key]};
+  if(dow===0||dow===6||dow===3) return{s:'na',r:dow===3?'Wednesday':'Weekend'};
+  return{s:'effect',r:'In effect'};
+}
 
 function updateClock(){
   const n=new Date();
@@ -368,11 +399,18 @@ async function fetchWeather(){
   }catch(e){el.innerHTML='<span style="font-size:13px;font-weight:600;color:var(--text2);">Weather unavailable</span>';}
 }
 
-window.addEventListener('resize',renderWeek);
+window.addEventListener('resize', renderWeek);
 document.getElementById('prev-week').addEventListener('click',()=>{wo--;renderWeek();});
 document.getElementById('next-week').addEventListener('click',()=>{wo++;renderWeek();});
-updateClock();setInterval(updateClock,1000);
-updateTodayAsp();renderWeek();fetchWeather();initBattery();
+
+updateClock(); setInterval(updateClock, 1000);
+renderWeek(); // render with fallback first
+fetchASPData(); // then fetch live — re-renders when done
+fetchWeather();
+initBattery();
+
+// Refresh ASP data every 6 hours in case of emergency suspensions
+setInterval(fetchASPData, 6 * 60 * 60 * 1000);
 </script>
 </body>
 </html>
