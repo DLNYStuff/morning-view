@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="NYC Dashboard">
-<title>NYC Dashboard</title>
+<meta name="apple-mobile-web-app-title" content="DLNY Morning View">
+<meta name="theme-color" content="#f2f0ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)">
+<title>DLNY Morning View</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap');
-  @import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,18 +25,19 @@
     --radius-sm: 10px;
     --font: 'DM Sans', system-ui, sans-serif;
     --mono: 'DM Mono', monospace;
-
     --hdr-blue-bg: #B5D4F4; --hdr-blue-fg: #0C447C;
     --hdr-teal-bg: #9FE1CB; --hdr-teal-fg: #085041;
     --hdr-amber-bg: #FAC775; --hdr-amber-fg: #633806;
     --hdr-purple-bg: #CECBF6; --hdr-purple-fg: #3C3489;
     --hdr-green-bg: #C0DD97; --hdr-green-fg: #27500A;
-
     --badge-sus-bg: #EAF3DE; --badge-sus-fg: #27500A;
     --badge-eff-bg: #FCEBEB; --badge-eff-fg: #791F1F;
     --holiday-fg: #3B6D11;
     --asp-sus: #27500A;
     --asp-eff: #791F1F;
+    --today-border: #0C447C;
+    --today-bg: #EBF3FC;
+    --today-text: #0C447C;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -47,51 +49,85 @@
       --text: #f0ede6;
       --text2: #c0bdb6;
       --text3: #888880;
-
       --hdr-blue-bg: #0C447C; --hdr-blue-fg: #B5D4F4;
       --hdr-teal-bg: #085041; --hdr-teal-fg: #9FE1CB;
       --hdr-amber-bg: #633806; --hdr-amber-fg: #FAC775;
       --hdr-purple-bg: #3C3489; --hdr-purple-fg: #CECBF6;
       --hdr-green-bg: #27500A; --hdr-green-fg: #C0DD97;
-
       --badge-sus-bg: #173404; --badge-sus-fg: #C0DD97;
       --badge-eff-bg: #501313; --badge-eff-fg: #F7C1C1;
       --holiday-fg: #97C459;
       --asp-sus: #C0DD97;
       --asp-eff: #F7C1C1;
+      --today-border: #B5D4F4;
+      --today-bg: #0C1E30;
+      --today-text: #B5D4F4;
     }
   }
 
   html, body {
     min-height: 100vh;
-    background: transparent;
+    min-height: 100dvh;
+    background: var(--bg);
     font-family: var(--font);
     color: var(--text);
     -webkit-font-smoothing: antialiased;
   }
 
-  body { padding: 24px 20px 40px; max-width: 740px; margin: 0 auto; }
+  body {
+    padding: 20px 16px 32px;
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(32px, env(safe-area-inset-bottom));
+    max-width: 740px;
+    margin: 0 auto;
+  }
 
   header {
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 22px; padding-bottom: 16px;
+    margin-bottom: 18px; padding-bottom: 14px;
     border-bottom: 1px solid var(--border);
   }
-  header h1 { font-size: 13px; font-weight: 600; color: var(--text3); letter-spacing: 0.10em; text-transform: uppercase; }
-  #header-date { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--text3); }
+  header h1 { font-size: 12px; font-weight: 600; color: var(--text3); letter-spacing: 0.10em; text-transform: uppercase; }
+  #header-date { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--text3); }
 
-  .grid-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; margin-bottom: 12px; }
+  /* ── TOP GRID — 2x2 on mobile, 4-col on desktop ── */
+  .grid-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
 
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+  @media (min-width: 600px) {
+    .grid-top { grid-template-columns: repeat(4, 1fr); }
+  }
 
-  .card-header { padding: 10px 16px 9px; display: flex; align-items: center; gap: 8px; }
-  .card-header i { font-size: 16px; }
-  .card-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
 
-  .card-body { padding: 14px 16px 16px; flex: 1; }
+  .card-header {
+    padding: 9px 13px 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
 
-  .card-value { font-size: 28px; font-weight: 500; color: var(--text); line-height: 1; margin-bottom: 6px; white-space: nowrap; }
-  .card-sub { font-size: 14px; font-weight: 600; color: var(--text2); line-height: 1.4; }
+  .card-header svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .card-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+  .card-body { padding: 12px 13px 14px; flex: 1; }
+
+  .card-value { font-size: 26px; font-weight: 500; color: var(--text); line-height: 1; margin-bottom: 5px; white-space: nowrap; }
+  .card-sub { font-size: 13px; font-weight: 600; color: var(--text2); line-height: 1.4; }
+
+  /* Mobile: slightly smaller values so nothing clips */
+  @media (max-width: 400px) {
+    .card-value { font-size: 22px; }
+    .card-sub { font-size: 12px; }
+  }
 
   .hdr-blue   { background: var(--hdr-blue-bg);   color: var(--hdr-blue-fg); }
   .hdr-teal   { background: var(--hdr-teal-bg);   color: var(--hdr-teal-fg); }
@@ -99,62 +135,107 @@
   .hdr-purple { background: var(--hdr-purple-bg); color: var(--hdr-purple-fg); }
   .hdr-green  { background: var(--hdr-green-bg);  color: var(--hdr-green-fg); }
 
-  .weather-row { display: flex; align-items: center; gap: 10px; }
-  .w-emoji { font-size: 28px; line-height: 1; }
-  .w-temp  { font-size: 28px; font-weight: 500; font-family: var(--mono); color: var(--text); line-height: 1; }
-  .w-desc  { font-size: 14px; font-weight: 600; color: var(--text2); margin-top: 4px; }
-  .w-meta  { font-size: 13px; font-weight: 600; color: var(--text3); margin-top: 10px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .weather-row { display: flex; align-items: center; gap: 8px; }
+  .w-emoji { font-size: 24px; line-height: 1; }
+  .w-temp  { font-size: 24px; font-weight: 500; font-family: var(--mono); color: var(--text); line-height: 1; }
+  .w-desc  { font-size: 12px; font-weight: 600; color: var(--text2); margin-top: 3px; }
+  .w-meta  { font-size: 11px; font-weight: 600; color: var(--text3); margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
 
-  .batt-wrap { display: flex; align-items: center; gap: 9px; margin-top: 10px; }
-  .batt-shell { width: 50px; height: 24px; border: 2px solid var(--border-strong); border-radius: 5px; position: relative; padding: 2px; display: flex; align-items: center; }
-  .batt-shell::after { content:''; position:absolute; right:-6px; top:50%; transform:translateY(-50%); width:4px; height:10px; background:var(--border-strong); border-radius:0 2px 2px 0; }
-  .batt-fill { height: 100%; border-radius: 3px; transition: width .5s, background .5s; }
-  #battery-status { font-size: 13px; font-weight: 600; }
-
-  .asp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 12px; }
-  .asp-card-header { padding: 10px 16px 9px; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
-  .asp-card-header-left { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
-
-  .week-nav { display: flex; align-items: center; gap: 6px; }
-  .nav-btn { background: rgba(0,0,0,0.12); border: none; border-radius: 6px; width: 26px; height: 26px; cursor: pointer; font-size: 18px; font-weight: 600; color: inherit; display: flex; align-items: center; justify-content: center; }
-  .nav-btn:hover { background: rgba(0,0,0,0.22); }
-  .week-label { font-size: 11px; font-weight: 600; min-width: 66px; text-align: center; }
-
-  .asp-card-body { padding: 14px 16px 16px; }
-
-  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; }
-  .day-cell { border-radius: var(--radius-sm); padding: 10px 4px 8px; text-align: center; border: 1px solid var(--border); }
-  .day-cell.today { border-color: var(--border-strong); background: transparent; }
-
-  .day-name { font-size: 12px; font-weight: 600; color: var(--text3); margin-bottom: 4px; letter-spacing: 0.04em; }
-  .day-num  { font-size: 17px; font-weight: 500; color: var(--text); font-family: var(--mono); margin-bottom: 6px; }
-
-  .asp-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 6px; border-radius: 5px; letter-spacing: 0.03em; }
-  .badge-suspended { background: var(--badge-sus-bg); color: var(--badge-sus-fg); }
-  .badge-effect    { background: var(--badge-eff-bg); color: var(--badge-eff-fg); }
-  .badge-na        { background: transparent; color: var(--text3); border: 1px solid var(--border-strong); }
-
-  .holiday-label { font-size: 10px; font-weight: 600; color: var(--holiday-fg); margin-top: 4px; line-height: 1.3; }
+  .batt-wrap { display: flex; align-items: center; gap: 8px; margin-top: 9px; }
+  .batt-shell { width: 44px; height: 20px; border: 1.5px solid var(--border-strong); border-radius: 4px; position: relative; padding: 2px; display: flex; align-items: center; }
+  .batt-shell::after { content:''; position:absolute; right:-5px; top:50%; transform:translateY(-50%); width:3px; height:8px; background:var(--border-strong); border-radius:0 2px 2px 0; }
+  .batt-fill { height: 100%; border-radius: 2px; transition: width .5s, background .5s; }
+  #battery-status { font-size: 12px; font-weight: 600; }
 
   .asp-suspended { color: var(--asp-sus); }
   .asp-effect    { color: var(--asp-eff); }
   .asp-na        { color: var(--text3); }
 
-  footer { margin-top: 24px; text-align: center; font-size: 12px; font-weight: 500; color: var(--text3); border-top: 1px solid var(--border); padding-top: 16px; }
+  /* ── WEEK CARD ── */
+  .asp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 10px;
+  }
+
+  .asp-card-header {
+    padding: 9px 13px 8px;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+  }
+
+  .asp-card-header-left { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .asp-card-header-left svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .week-nav { display: flex; align-items: center; gap: 5px; }
+  .nav-btn { background: rgba(0,0,0,0.12); border: none; border-radius: 6px; width: 26px; height: 26px; cursor: pointer; font-size: 16px; font-weight: 600; color: inherit; display: flex; align-items: center; justify-content: center; }
+  .nav-btn:hover { background: rgba(0,0,0,0.22); }
+  .week-label { font-size: 11px; font-weight: 600; min-width: 60px; text-align: center; }
+
+  .asp-card-body { padding: 10px 10px 12px; }
+
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+
+  .day-cell {
+    border-radius: 8px;
+    padding: 7px 2px 6px;
+    text-align: center;
+    border: 1px solid var(--border);
+    min-width: 0;
+  }
 
   .day-cell.today {
-    border: 2.5px solid #0C447C !important;
-    background: #EBF3FC !important;
-    box-shadow: 0 2px 10px rgba(12,68,124,0.13);
+    border: 2.5px solid var(--today-border);
+    background: var(--today-bg);
   }
-  .day-cell.today .day-name { font-weight: 700; color: #0C447C; }
-  .day-cell.today .day-num  { font-size: 19px; font-weight: 700; color: #0C447C; }
+
+  .day-name {
+    font-size: 10px; font-weight: 600;
+    color: var(--text3);
+    margin-bottom: 3px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+
+  .day-cell.today .day-name { font-weight: 700; color: var(--today-text); }
+
+  .day-num {
+    font-size: 14px; font-weight: 500;
+    color: var(--text);
+    font-family: var(--mono);
+    margin-bottom: 4px;
+    line-height: 1;
+  }
+
+  .day-cell.today .day-num { font-weight: 700; color: var(--today-text); font-size: 15px; }
+
+  .asp-badge {
+    display: inline-block;
+    font-size: 8px; font-weight: 700;
+    padding: 2px 4px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .badge-suspended { background: var(--badge-sus-bg); color: var(--badge-sus-fg); }
+  .badge-effect    { background: var(--badge-eff-bg); color: var(--badge-eff-fg); }
+  .badge-na        { background: var(--bg); color: var(--text3); border: 1px solid var(--border-strong); }
+
+  .holiday-label { font-size: 8px; font-weight: 600; color: var(--holiday-fg); margin-top: 3px; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+
+  footer { margin-top: 20px; text-align: center; font-size: 11px; font-weight: 500; color: var(--text3); border-top: 1px solid var(--border); padding-top: 14px; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>NYC Dashboard</h1>
+  <h1>DLNY Morning View</h1>
   <span id="header-date"></span>
 </header>
 
@@ -162,43 +243,43 @@
 
   <div class="card">
     <div class="card-header hdr-blue">
-      <i class="ti ti-clock"></i>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       <span class="card-label">Time</span>
     </div>
     <div class="card-body">
-      <div class="card-value" id="time-display" style="font-family:var(--mono);font-size:24px;">--:--</div>
+      <div class="card-value" id="time-display" style="font-family:var(--mono);font-size:22px;">--:--</div>
       <div class="card-sub" id="date-display">Loading...</div>
     </div>
   </div>
 
   <div class="card">
     <div class="card-header hdr-teal">
-      <i class="ti ti-cloud"></i>
+      <svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
       <span class="card-label">Weather · NYC</span>
     </div>
     <div class="card-body">
-      <div id="weather-content" style="font-size:14px;font-weight:600;color:var(--text2);">Fetching...</div>
+      <div id="weather-content" style="font-size:13px;font-weight:600;color:var(--text2);">Fetching...</div>
     </div>
   </div>
 
   <div class="card">
     <div class="card-header hdr-amber">
-      <i class="ti ti-car"></i>
+      <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h2a2 2 0 0 1 0 4h-2"/><line x1="1" y1="16" x2="4" y2="16"/><line x1="9" y1="16" x2="12" y2="16"/></svg>
       <span class="card-label">ASP Today</span>
     </div>
     <div class="card-body">
-      <div class="card-value asp-na" id="today-asp-value" style="font-size:22px;font-family:var(--font);font-weight:600;">—</div>
+      <div class="card-value asp-na" id="today-asp-value" style="font-size:20px;font-family:var(--font);font-weight:600;">—</div>
       <div class="card-sub" id="today-asp-reason"></div>
     </div>
   </div>
 
   <div class="card">
     <div class="card-header hdr-purple">
-      <i class="ti ti-battery"></i>
+      <svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v3"/></svg>
       <span class="card-label">Battery</span>
     </div>
     <div class="card-body">
-      <div class="card-value" id="battery-pct" style="font-size:28px;font-family:var(--mono);">—</div>
+      <div class="card-value" id="battery-pct" style="font-size:26px;font-family:var(--mono);">—</div>
       <div class="batt-wrap">
         <div class="batt-shell"><div class="batt-fill" id="battery-fill"></div></div>
         <span id="battery-status"></span>
@@ -211,13 +292,13 @@
 <div class="asp-card">
   <div class="asp-card-header hdr-green">
     <div class="asp-card-header-left">
-      <i class="ti ti-calendar"></i>
-      Alternate side parking — week view
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Alt Side Parking
     </div>
     <div class="week-nav">
-      <button class="nav-btn" id="prev-week" aria-label="Previous week">&#8249;</button>
+      <button class="nav-btn" id="prev-week">&#8249;</button>
       <span class="week-label" id="week-label">This week</span>
-      <button class="nav-btn" id="next-week" aria-label="Next week">&#8250;</button>
+      <button class="nav-btn" id="next-week">&#8250;</button>
     </div>
   </div>
   <div class="asp-card-body">
@@ -225,10 +306,10 @@
   </div>
 </div>
 
-<footer>New York City &nbsp;·&nbsp; Live data &nbsp;·&nbsp; ASP 2026 calendar &nbsp;·&nbsp; Weather via Open-Meteo</footer>
+<footer>New York City &nbsp;·&nbsp; ASP 2026 &nbsp;·&nbsp; Weather via Open-Meteo</footer>
 
 <script>
-const ASP={"2026-01-01":"New Year's Day","2026-01-06":"Three Kings' Day","2026-01-19":"MLK Jr. Day","2026-02-12":"Lincoln's Birthday","2026-02-16":"Washington's Bday / Lunar New Year's Eve","2026-02-17":"Lunar New Year","2026-02-18":"Ash Wednesday / Losar","2026-04-03":"Good Friday","2026-04-08":"Passover (7th day)","2026-04-09":"Passover (8th day)","2026-05-25":"Memorial Day","2026-06-19":"Juneteenth","2026-07-03":"Independence Day (obs.)","2026-07-04":"Independence Day","2026-07-23":"Tisha B'Av","2026-08-15":"Feast of Assumption","2026-09-07":"Labor Day","2026-09-12":"Rosh Hashanah","2026-09-13":"Rosh Hashanah","2026-09-21":"Yom Kippur","2026-09-26":"Sukkot","2026-09-27":"Sukkot","2026-10-03":"Shemini Atzeret","2026-10-04":"Simchas Torah","2026-10-08":"Diwali","2026-10-12":"Indigenous Peoples' Day","2026-11-01":"All Saints' Day","2026-11-03":"Election Day","2026-11-11":"Veterans Day","2026-11-26":"Thanksgiving"};
+const ASP={"2026-01-01":"New Year's Day","2026-01-06":"Three Kings' Day","2026-01-19":"MLK Jr. Day","2026-02-12":"Lincoln's Birthday","2026-02-16":"Washington's Bday","2026-02-17":"Lunar New Year","2026-02-18":"Ash Wednesday","2026-04-03":"Good Friday","2026-04-08":"Passover (7th)","2026-04-09":"Passover (8th)","2026-05-25":"Memorial Day","2026-06-19":"Juneteenth","2026-07-03":"Independence Day","2026-07-04":"Independence Day","2026-07-23":"Tisha B'Av","2026-08-15":"Feast of Assumption","2026-09-07":"Labor Day","2026-09-12":"Rosh Hashanah","2026-09-13":"Rosh Hashanah","2026-09-21":"Yom Kippur","2026-09-26":"Sukkot","2026-09-27":"Sukkot","2026-10-03":"Shemini Atzeret","2026-10-04":"Simchas Torah","2026-10-08":"Diwali","2026-10-12":"Indigenous Peoples' Day","2026-11-01":"All Saints' Day","2026-11-03":"Election Day","2026-11-11":"Veterans Day","2026-11-26":"Thanksgiving"};
 
 function toKey(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 function getAsp(date){const key=toKey(date),dow=date.getDay();if(ASP[key])return{s:'suspended',r:ASP[key]};if(dow===0||dow===6||dow===3)return{s:'na',r:dow===3?'Wednesday':'Weekend'};return{s:'effect',r:'In effect'};}
@@ -243,7 +324,7 @@ function updateClock(){
 
 function updateTodayAsp(){
   const a=getAsp(new Date()),v=document.getElementById('today-asp-value'),r=document.getElementById('today-asp-reason');
-  v.style.fontSize='22px'; v.style.fontFamily='var(--font)'; v.style.fontWeight='600';
+  v.style.fontSize='20px';v.style.fontFamily='var(--font)';v.style.fontWeight='600';
   if(a.s==='suspended'){v.textContent='Suspended';v.className='card-value asp-suspended';r.textContent=a.r;}
   else if(a.s==='effect'){v.textContent='In effect';v.className='card-value asp-effect';r.textContent='Move your car';}
   else{v.textContent='N/A';v.className='card-value asp-na';r.textContent=a.r;}
@@ -252,8 +333,8 @@ function updateTodayAsp(){
 async function initBattery(){
   const p=document.getElementById('battery-pct'),f=document.getElementById('battery-fill'),s=document.getElementById('battery-status');
   function render(lv,ch){const pct=Math.round(lv*100);p.textContent=pct+'%';f.style.width=pct+'%';const c=pct>50?'#3B6D11':pct>20?'#BA7517':'#E24B4A';f.style.background=c;p.style.color=c;s.textContent=ch?'⚡ Charging':'';s.style.color='#BA7517';}
-  if('getBattery'in navigator){try{const b=await navigator.getBattery();render(b.level,b.charging);b.addEventListener('levelchange',()=>render(b.level,b.charging));b.addEventListener('chargingchange',()=>render(b.level,b.charging));}catch(e){p.textContent='N/A';p.style.color='var(--text3)';s.textContent='Unavailable';}}
-  else{p.textContent='N/A';p.style.color='var(--text3)';s.textContent='Not supported';}
+  if('getBattery'in navigator){try{const b=await navigator.getBattery();render(b.level,b.charging);b.addEventListener('levelchange',()=>render(b.level,b.charging));b.addEventListener('chargingchange',()=>render(b.level,b.charging));}catch(e){p.textContent='N/A';s.textContent='Unavailable';}}
+  else{p.textContent='N/A';s.textContent='N/A';}
 }
 
 let wo=0;
@@ -261,14 +342,17 @@ function getWeekDates(off){const t=new Date(),dow=t.getDay(),m=new Date(t);m.set
 
 function renderWeek(){
   const grid=document.getElementById('week-grid'),lbl=document.getElementById('week-label'),tk=toKey(new Date()),days=getWeekDates(wo);
-  const names=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const names=['M','T','W','T','F','S','S'];
+  const fullNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const isMobile=window.innerWidth<480;
   lbl.textContent=wo===0?'This week':wo===1?'Next week':wo===-1?'Last week':days[0].toLocaleDateString('en-US',{month:'short',day:'numeric'});
   grid.innerHTML=days.map((d,i)=>{
     const a=getAsp(d),isT=toKey(d)===tk;
     const bc=a.s==='suspended'?'badge-suspended':a.s==='effect'?'badge-effect':'badge-na';
-    const bt=a.s==='suspended'?'Suspended':a.s==='effect'?'In effect':'N/A';
-    const hl=a.s==='suspended'?`<div class="holiday-label">${a.r.split('/')[0].trim()}</div>`:'';
-    return`<div class="day-cell${isT?' today':''}"><div class="day-name">${names[i]}</div><div class="day-num">${d.getDate()}</div><span class="asp-badge ${bc}">${bt}</span>${hl}</div>`;
+    const bt=a.s==='suspended'?'Sus':a.s==='effect'?'In eff':'N/A';
+    const hl=a.s==='suspended'?`<div class="holiday-label">${a.r.split(' ')[0]}</div>`:'';
+    const dayLabel=isMobile?names[i]:fullNames[i];
+    return`<div class="day-cell${isT?' today':''}"><div class="day-name">${dayLabel}</div><div class="day-num">${d.getDate()}</div><span class="asp-badge ${bc}">${bt}</span>${hl}</div>`;
   }).join('');
 }
 
@@ -280,15 +364,15 @@ async function fetchWeather(){
     const temp=Math.round(data.current.temperature_2m),feels=Math.round(data.current.apparent_temperature),wind=Math.round(data.current.windspeed_10m),hi=Math.round(data.daily.temperature_2m_max[0]),lo=Math.round(data.daily.temperature_2m_min[0]),code=data.current.weathercode;
     const icons={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌦️',61:'🌧️',63:'🌧️',65:'🌧️',71:'❄️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️'};
     const descs={0:'Clear skies',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Heavy showers',82:'Thunderstorm',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
-    el.innerHTML=`<div class="weather-row"><span class="w-emoji">${icons[code]||'🌡️'}</span><div><div class="w-temp">${temp}°F</div><div class="w-desc">${descs[code]||'Unknown'}</div></div></div><div class="w-meta"><span>Feels ${feels}°</span><span>H:${hi}° / L:${lo}°</span><span>${wind} mph</span></div>`;
-  }catch(e){el.innerHTML='<span style="font-size:14px;font-weight:600;color:var(--text2);">Weather unavailable</span>';}
+    el.innerHTML=`<div class="weather-row"><span class="w-emoji">${icons[code]||'🌡️'}</span><div><div class="w-temp">${temp}°F</div><div class="w-desc">${descs[code]||'Unknown'}</div></div></div><div class="w-meta"><span>Feels ${feels}°</span><span>H:${hi}° L:${lo}°</span><span>${wind}mph</span></div>`;
+  }catch(e){el.innerHTML='<span style="font-size:13px;font-weight:600;color:var(--text2);">Weather unavailable</span>';}
 }
 
+window.addEventListener('resize',renderWeek);
 document.getElementById('prev-week').addEventListener('click',()=>{wo--;renderWeek();});
 document.getElementById('next-week').addEventListener('click',()=>{wo++;renderWeek();});
-
-updateClock(); setInterval(updateClock,1000);
-updateTodayAsp(); renderWeek(); fetchWeather(); initBattery();
+updateClock();setInterval(updateClock,1000);
+updateTodayAsp();renderWeek();fetchWeather();initBattery();
 </script>
 </body>
 </html>
