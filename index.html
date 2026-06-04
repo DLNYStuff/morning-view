@@ -194,7 +194,7 @@
 
   <div class="card">
     <div class="card-header hdr-amber">
-      <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h2a2 2 0 0 1 0 4h-2"/><line x1="1" y1="16" x2="4" y2="16"/><line x1="9" y1="16" x2="12" y2="16"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M5 17H3a1 1 0 0 1-1-1v-4l2.5-5h11l2.5 5v4a1 1 0 0 1-1 1h-2"/><rect x="6" y="15" width="3" height="3" rx="1.5"/><rect x="15" y="15" width="3" height="3" rx="1.5"/><path d="M4.5 12h15"/></svg>
       <span class="card-label">ASP Today</span>
       <span class="asp-live-dot loading" id="asp-dot" title="Loading..."></span>
     </div>
@@ -252,6 +252,11 @@ const NO_PARK_SMALL = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/sv
 </svg>`;
 
 const SUSPENDED_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="12" cy="12" r="10" fill="none" stroke="#27500A" stroke-width="2"/>
+  <polyline points="8,12 11,15 16,9" fill="none" stroke="#27500A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
+const SUSPENDED_LARGE_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;flex-shrink:0;">
   <circle cx="12" cy="12" r="10" fill="none" stroke="#27500A" stroke-width="2"/>
   <polyline points="8,12 11,15 16,9" fill="none" stroke="#27500A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
@@ -319,19 +324,23 @@ function updateTodayAsp() {
   const body = document.getElementById('asp-today-body');
   if (a.s === 'suspended') {
     body.innerHTML = `
-      <div style="font-size:20px;font-weight:600;color:var(--asp-sus);margin-bottom:5px;">Suspended</div>
-      <div style="font-size:13px;font-weight:600;color:var(--text2);">${a.r}</div>`;
+      <div class="no-park-symbol">
+        ${SUSPENDED_LARGE_SVG}
+        <div>
+          <div style="font-size:16px;font-weight:600;color:var(--asp-sus);line-height:1.2;">Suspended</div>
+          <div style="font-size:12px;font-weight:500;color:var(--asp-sus);margin-top:3px;opacity:0.85;">${a.r}</div>
+        </div>
+      </div>`;
   } else if (a.s === 'sunday') {
     body.innerHTML = `
-      <div style="font-size:20px;font-weight:600;color:var(--text3);margin-bottom:5px;">No ASP</div>
-      <div style="font-size:13px;font-weight:500;color:var(--text2);">Sundays are universally exempt</div>`;
+      <div style="font-size:18px;font-weight:600;color:var(--text3);margin-bottom:5px;">No ASP</div>
+      <div style="font-size:12px;font-weight:500;color:var(--text2);">Sundays are universally exempt</div>`;
   } else {
     body.innerHTML = `
       <div class="no-park-symbol">
         ${NO_PARK_SVG}
         <div>
-          <div class="no-park-label">No Parking</div>
-          <div style="font-size:12px;font-weight:500;color:var(--text2);margin-top:2px;">Move your car</div>
+          <div class="no-park-label" style="font-size:15px;line-height:1.2;">Alt Side Rules<br>In Effect</div>
         </div>
       </div>`;
   }
