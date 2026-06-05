@@ -272,7 +272,7 @@
 // ─────────────────────────────────────────
 // API KEY — add yours here
 // ─────────────────────────────────────────
-const NYC311_API_KEY = '2bcbbea0802043c38f54f493346d0de3';  // ← paste your NYC 311 Public Developers primary key between the quotes
+const NYC311_API_KEY = '';  // ← paste your NYC 311 Public Developers primary key between the quotes
 
 // ─────────────────────────────────────────
 // SVG ICONS
@@ -429,8 +429,6 @@ function setASPStatus(state, cacheDate) {
 // ─────────────────────────────────────────
 async function fetchASPData() {
   try {
-    if (!NYC311_API_KEY) throw new Error('No API key configured');
-
     const controller = new AbortController();
     const tid = setTimeout(() => controller.abort(), 8000);
 
@@ -445,12 +443,9 @@ async function fetchASPData() {
       return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
     }
 
-    const res = await fetch(`https://api.nyc.gov/public/api/GetCalendar?fromDate=${toAPIDate(fromDate)}&toDate=${toAPIDate(toDate)}`, {
-      signal: controller.signal,
-      headers: {
-        'Ocp-Apim-Subscription-Key': NYC311_API_KEY,
-        'Cache-Control': 'no-cache'
-      }
+    // Route through Cloudflare Worker proxy to bypass CORS
+    const res = await fetch(`https://nyc-asp-proxy.dlopenzina.workers.dev/?fromdate=${toAPIDate(fromDate)}&todate=${toAPIDate(toDate)}`, {
+      signal: controller.signal
     });
     clearTimeout(tid);
 
