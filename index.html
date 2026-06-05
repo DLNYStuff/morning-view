@@ -373,7 +373,7 @@ function setASPStatus(source, cacheDate) {
   if (source === 'live') {
     dot.classList.add('live');
     bar.classList.add('live');
-    bar.innerHTML = `<span class="asp-live-dot live"></span> Live data · NYC ASP API`;
+    bar.innerHTML = `<span class="asp-live-dot live"></span> Live data · NYC 311 Official API`;
 
   } else if (source === 'cached') {
     const dateStr = cacheDate ? cacheDate.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) : 'recently';
@@ -395,6 +395,7 @@ function setASPStatus(source, cacheDate) {
   }
 }
 
+const NYC311_API_KEY = '2bcbbea0802043c38f54f493346d0de3';
 const CACHE_KEY = 'dlny_asp_cache';
 const CACHE_DATE_KEY = 'dlny_asp_cache_date';
 
