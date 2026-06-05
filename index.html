@@ -434,7 +434,12 @@ async function fetchASPData() {
     const controller = new AbortController();
     const tid = setTimeout(() => controller.abort(), 8000);
 
-    const res = await fetch('https://api.nyc.gov/public/api/GetCalendar', {
+    // API requires fromDate parameter — pass yesterday to ensure we get today's data
+    const fromDate = new Date();
+    fromDate.setDate(fromDate.getDate() - 1);
+    const fromDateStr = fromDate.toISOString().substring(0, 10); // YYYY-MM-DD
+
+    const res = await fetch(`https://api.nyc.gov/public/api/GetCalendar?fromDate=${fromDateStr}`, {
       signal: controller.signal,
       headers: {
         'Ocp-Apim-Subscription-Key': NYC311_API_KEY,
@@ -446,31 +451,26 @@ async function fetchASPData() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
-    // Parse — API returns array of day objects
-    const days = Array.isArray(data) ? data : (data.days || data.items || []);
+    // Parse — response format: { days: [{ today_id: "YYYYMMDD", items: [...] }] }
+    const days = data.days || [];
     if (!days.length) throw new Error('Empty response');
 
     const live = {};
     days.forEach(day => {
-      const rawDate = day.today_id || day.date || day.cal_date || '';
-      if (!rawDate) return;
-      const key = rawDate.substring(0, 10);
+      // today_id is "YYYYMMDD" — convert to "YYYY-MM-DD"
+      const raw = day.today_id || '';
+      if (raw.length !== 8) return;
+      const key = `${raw.substring(0,4)}-${raw.substring(4,6)}-${raw.substring(6,8)}`;
 
-      const items = Array.isArray(day.items) ? day.items
-                  : Array.isArray(day.services) ? day.services
-                  : Object.values(day.items || day.services || {});
-
-      items.forEach(item => {
-        const type   = (item.type || item.service_name || '').toLowerCase();
-        const status = (item.status || item.status_name || '').toUpperCase();
-        const reason = item.exceptionName || item.exception_reason || item.details || 'Suspended';
-        if (type.includes('parking') && status.includes('SUSPEND')) {
-          live[key] = reason;
+      (day.items || []).forEach(item => {
+        if (item.type === 'Alternate Side Parking' && item.status === 'SUSPENDED') {
+          live[key] = item.exceptionName || item.details || 'Suspended';
         }
       });
     });
 
-    if (!Object.keys(live).length) throw new Error('No suspended dates parsed');
+    // Note: no suspended dates in range is valid (not an error)
+    console.log('NYC 311 API: parsed', Object.keys(live).length, 'suspended dates from', days.length, 'days');
 
     saveCache(live);
     aspSuspensions = live;
