@@ -373,7 +373,7 @@ function setASPStatus(source, cacheDate) {
   if (source === 'live') {
     dot.classList.add('live');
     bar.classList.add('live');
-    bar.innerHTML = `<span class="asp-live-dot live"></span> Live data · NYC Open Data API`;
+    bar.innerHTML = `<span class="asp-live-dot live"></span> Live data · NYC ASP API`;
 
   } else if (source === 'cached') {
     const dateStr = cacheDate ? cacheDate.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) : 'recently';
