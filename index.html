@@ -24,20 +24,18 @@
     --radius: 16px;
     --font: 'DM Sans', system-ui, sans-serif;
     --mono: 'DM Mono', monospace;
-    --hdr-blue-bg: #B5D4F4; --hdr-blue-fg: #0C447C;
-    --hdr-teal-bg: #9FE1CB; --hdr-teal-fg: #085041;
-    --hdr-amber-bg: #FAC775; --hdr-amber-fg: #633806;
+    --hdr-blue-bg: #B5D4F4;   --hdr-blue-fg: #0C447C;
+    --hdr-teal-bg: #9FE1CB;   --hdr-teal-fg: #085041;
+    --hdr-amber-bg: #FAC775;  --hdr-amber-fg: #633806;
     --hdr-purple-bg: #CECBF6; --hdr-purple-fg: #3C3489;
-    --hdr-green-bg: #C0DD97; --hdr-green-fg: #27500A;
-    --badge-sus-bg: #EAF3DE; --badge-sus-fg: #27500A;
-    --badge-eff-bg: #FCEBEB; --badge-eff-fg: #791F1F;
-    --holiday-fg: #3B6D11;
+    --hdr-green-bg: #C0DD97;  --hdr-green-fg: #27500A;
     --asp-sus: #27500A;
     --asp-eff: #791F1F;
+    --no-park: #C0392B;
     --today-border: #0C447C;
     --today-bg: #EBF3FC;
     --today-text: #0C447C;
-    --no-park: #C0392B;
+    --holiday-fg: #3B6D11;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -49,20 +47,18 @@
       --text: #f0ede6;
       --text2: #c0bdb6;
       --text3: #888880;
-      --hdr-blue-bg: #0C447C; --hdr-blue-fg: #B5D4F4;
-      --hdr-teal-bg: #085041; --hdr-teal-fg: #9FE1CB;
-      --hdr-amber-bg: #633806; --hdr-amber-fg: #FAC775;
+      --hdr-blue-bg: #0C447C;   --hdr-blue-fg: #B5D4F4;
+      --hdr-teal-bg: #085041;   --hdr-teal-fg: #9FE1CB;
+      --hdr-amber-bg: #633806;  --hdr-amber-fg: #FAC775;
       --hdr-purple-bg: #3C3489; --hdr-purple-fg: #CECBF6;
-      --hdr-green-bg: #27500A; --hdr-green-fg: #C0DD97;
-      --badge-sus-bg: #173404; --badge-sus-fg: #C0DD97;
-      --badge-eff-bg: #501313; --badge-eff-fg: #F7C1C1;
-      --holiday-fg: #97C459;
+      --hdr-green-bg: #27500A;  --hdr-green-fg: #C0DD97;
       --asp-sus: #C0DD97;
       --asp-eff: #F7C1C1;
+      --no-park: #F08080;
       --today-border: #B5D4F4;
       --today-bg: #0C1E30;
       --today-text: #B5D4F4;
-      --no-park: #F08080;
+      --holiday-fg: #97C459;
     }
   }
 
@@ -75,17 +71,21 @@
   }
 
   body {
-    padding: 20px 16px 32px;
-    padding-top: max(20px, env(safe-area-inset-top));
-    padding-bottom: max(32px, env(safe-area-inset-bottom));
+    padding: max(20px, env(safe-area-inset-top)) 16px max(32px, env(safe-area-inset-bottom));
     max-width: 740px;
     margin: 0 auto;
   }
 
-  header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  /* ── Header ── */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 18px; padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
   header h1 { font-size: 12px; font-weight: 600; color: var(--text3); letter-spacing: 0.10em; text-transform: uppercase; }
   #header-date { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--text3); }
 
+  /* ── Top card grid ── */
   .grid-top { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
   @media (min-width: 600px) { .grid-top { grid-template-columns: repeat(4, 1fr); } }
 
@@ -98,98 +98,90 @@
   .card-sub { font-size: 13px; font-weight: 600; color: var(--text2); line-height: 1.4; }
   @media (max-width: 400px) { .card-value { font-size: 22px; } .card-sub { font-size: 12px; } }
 
+  /* ── Card header colors ── */
   .hdr-blue   { background: var(--hdr-blue-bg);   color: var(--hdr-blue-fg); }
   .hdr-teal   { background: var(--hdr-teal-bg);   color: var(--hdr-teal-fg); }
   .hdr-amber  { background: var(--hdr-amber-bg);  color: var(--hdr-amber-fg); }
   .hdr-purple { background: var(--hdr-purple-bg); color: var(--hdr-purple-fg); }
   .hdr-green  { background: var(--hdr-green-bg);  color: var(--hdr-green-fg); }
 
+  /* ── Weather ── */
   .weather-row { display: flex; align-items: center; gap: 8px; }
   .w-emoji { font-size: 24px; line-height: 1; }
   .w-temp  { font-size: 24px; font-weight: 500; font-family: var(--mono); color: var(--text); line-height: 1; }
   .w-desc  { font-size: 12px; font-weight: 600; color: var(--text2); margin-top: 3px; }
   .w-meta  { font-size: 11px; font-weight: 600; color: var(--text3); margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
 
+  /* ── Battery ── */
   .batt-wrap { display: flex; align-items: center; gap: 8px; margin-top: 9px; }
-  .batt-shell { width: 44px; height: 20px; border: 1.5px solid var(--border-strong); border-radius: 4px; position: relative; padding: 2px; display: flex; align-items: center; }
-  .batt-shell::after { content:''; position:absolute; right:-5px; top:50%; transform:translateY(-50%); width:3px; height:8px; background:var(--border-strong); border-radius:0 2px 2px 0; }
+  .batt-shell {
+    width: 44px; height: 20px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 4px; position: relative;
+    padding: 2px; display: flex; align-items: center;
+  }
+  .batt-shell::after {
+    content: ''; position: absolute; right: -5px; top: 50%; transform: translateY(-50%);
+    width: 3px; height: 8px; background: var(--border-strong); border-radius: 0 2px 2px 0;
+  }
   .batt-fill { height: 100%; border-radius: 2px; transition: width .5s, background .5s; }
   #battery-status { font-size: 12px; font-weight: 600; }
 
-  .asp-suspended { color: var(--asp-sus); }
-  .asp-effect    { color: var(--asp-eff); }
-
-  /* No parking symbol — SVG inline in JS, but also styled here */
+  /* ── ASP Today card body ── */
   .no-park-symbol { display: flex; align-items: center; gap: 10px; }
   .no-park-symbol svg { width: 40px; height: 40px; flex-shrink: 0; }
-  .no-park-label { font-size: 13px; font-weight: 600; color: var(--no-park); line-height: 1.3; }
+  .no-park-label { font-size: 15px; font-weight: 600; color: var(--no-park); line-height: 1.3; }
 
-  .asp-live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; vertical-align: middle; flex-shrink: 0; }
-  .asp-live-dot.loading  { background: #BA7517; animation: pulse 1s infinite; }
-  .asp-live-dot.live     { background: #3B6D11; }
-  .asp-live-dot.fallback { background: #BA7517; }
-  .asp-live-dot.error    { background: #E24B4A; animation: pulse 1s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-  /* Footer status bar */
-  .asp-status-bar {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 10px;
-    padding: 7px 10px;
-    border-radius: 8px;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1.4;
-  }
-  .asp-status-bar.live     { background: #EAF3DE; color: #27500A; }
-  .asp-status-bar.fallback { background: #FAEEDA; color: #633806; }
-  .asp-status-bar.error    { background: #FCEBEB; color: #791F1F; }
-  @media (prefers-color-scheme: dark) {
-    .asp-status-bar.live     { background: #173404; color: #C0DD97; }
-    .asp-status-bar.fallback { background: #2a1e04; color: #FAC775; }
-    .asp-status-bar.error    { background: #2a1010; color: #F7C1C1; }
-  }
-
-  /* Grayed out state for expired/no-data */
-  .asp-disabled {
-    opacity: 0.35;
-    pointer-events: none;
-    filter: grayscale(1);
-    user-select: none;
-  }
-
+  /* ── ASP Week card ── */
   .asp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 10px; }
   .asp-card-header { padding: 9px 13px 8px; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
   .asp-card-header-left { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
-  .asp-card-header-left svg.cal { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .asp-card-header-left svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .asp-card-body { padding: 10px 10px 12px; }
 
+  /* ── Week navigation ── */
   .week-nav { display: flex; align-items: center; gap: 5px; }
   .nav-btn { background: rgba(0,0,0,0.12); border: none; border-radius: 6px; width: 26px; height: 26px; cursor: pointer; font-size: 16px; font-weight: 600; color: inherit; display: flex; align-items: center; justify-content: center; }
   .nav-btn:hover { background: rgba(0,0,0,0.22); }
   .week-label { font-size: 11px; font-weight: 600; min-width: 60px; text-align: center; }
 
-  .asp-card-body { padding: 10px 10px 12px; }
+  /* ── Week grid ── */
   .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-
   .day-cell { border-radius: 8px; padding: 7px 2px 6px; text-align: center; border: 1px solid var(--border); min-width: 0; }
   .day-cell.today { border: 2.5px solid var(--today-border); background: var(--today-bg); }
   .day-name { font-size: 10px; font-weight: 600; color: var(--text3); margin-bottom: 3px; white-space: nowrap; }
   .day-cell.today .day-name { font-weight: 700; color: var(--today-text); }
   .day-num { font-size: 14px; font-weight: 500; color: var(--text); font-family: var(--mono); margin-bottom: 4px; line-height: 1; }
   .day-cell.today .day-num { font-weight: 700; color: var(--today-text); font-size: 15px; }
-
-  /* Week cell icons */
   .cell-icon { margin: 2px auto 0; display: flex; align-items: center; justify-content: center; }
   .cell-icon svg { width: 18px; height: 18px; }
-
   .holiday-label { font-size: 8px; font-weight: 600; color: var(--holiday-fg); margin-top: 2px; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
 
-  .asp-source { font-size: 10px; font-weight: 500; color: var(--text3); margin-top: 8px; text-align: right; }
+  /* ── ASP status bar ── */
+  .asp-live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; vertical-align: middle; flex-shrink: 0; }
+  .asp-live-dot.loading  { background: #BA7517; animation: pulse 1s infinite; }
+  .asp-live-dot.live     { background: #3B6D11; }
+  .asp-live-dot.cached   { background: #BA7517; }
+  .asp-live-dot.fallback { background: #BA7517; }
+  .asp-live-dot.error    { background: #E24B4A; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:0.4; } }
 
-  .loading-asp { font-size: 13px; font-weight: 500; color: var(--text3); }
+  .asp-status-bar { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding: 7px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; line-height: 1.4; }
+  .asp-status-bar.live     { background: #EAF3DE; color: #27500A; }
+  .asp-status-bar.cached   { background: #FAEEDA; color: #633806; }
+  .asp-status-bar.fallback { background: #FAEEDA; color: #633806; }
+  .asp-status-bar.error    { background: #FCEBEB; color: #791F1F; }
+  @media (prefers-color-scheme: dark) {
+    .asp-status-bar.live     { background: #173404; color: #C0DD97; }
+    .asp-status-bar.cached   { background: #2a1e04; color: #FAC775; }
+    .asp-status-bar.fallback { background: #2a1e04; color: #FAC775; }
+    .asp-status-bar.error    { background: #2a1010; color: #F7C1C1; }
+  }
 
+  /* ── Grayed out when data unavailable ── */
+  .asp-disabled { opacity: 0.35; pointer-events: none; filter: grayscale(1); user-select: none; }
+
+  /* ── Footer ── */
   footer { margin-top: 20px; text-align: center; font-size: 11px; font-weight: 500; color: var(--text3); border-top: 1px solid var(--border); padding-top: 14px; }
 </style>
 </head>
@@ -202,6 +194,7 @@
 
 <div class="grid-top">
 
+  <!-- Time -->
   <div class="card">
     <div class="card-header hdr-blue">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -213,6 +206,7 @@
     </div>
   </div>
 
+  <!-- Weather -->
   <div class="card">
     <div class="card-header hdr-teal">
       <svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
@@ -223,16 +217,18 @@
     </div>
   </div>
 
+  <!-- ASP Today -->
   <div class="card">
     <div class="card-header hdr-amber">
       <svg viewBox="0 0 24 24"><path d="M5 17H3a1 1 0 0 1-1-1v-4l2.5-5h11l2.5 5v4a1 1 0 0 1-1 1h-2"/><rect x="6" y="15" width="3" height="3" rx="1.5"/><rect x="15" y="15" width="3" height="3" rx="1.5"/><path d="M4.5 12h15"/></svg>
       <span class="card-label">ASP Today</span>
     </div>
     <div class="card-body" id="asp-today-body">
-      <div class="loading-asp">Loading...</div>
+      <div style="font-size:13px;font-weight:500;color:var(--text3);">Loading...</div>
     </div>
   </div>
 
+  <!-- Battery -->
   <div class="card">
     <div class="card-header hdr-purple">
       <svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v3"/></svg>
@@ -249,10 +245,11 @@
 
 </div>
 
+<!-- Week view -->
 <div class="asp-card">
   <div class="asp-card-header hdr-green">
     <div class="asp-card-header-left">
-      <svg class="cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       Alt Side Parking
     </div>
     <div class="week-nav">
@@ -269,35 +266,43 @@
   </div>
 </div>
 
-<footer>New York City &nbsp;·&nbsp; Weather via Open-Meteo &nbsp;·&nbsp; ASP via NYC Open Data</footer>
+<footer>New York City &nbsp;·&nbsp; Weather via Open-Meteo &nbsp;·&nbsp; ASP via NYC 311 Official API</footer>
 
 <script>
-// ── SVG icons ──
-const NO_PARK_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+// ─────────────────────────────────────────
+// API KEY — add yours here
+// ─────────────────────────────────────────
+const NYC311_API_KEY = '2bcbbea0802043c38f54f493346d0de3';  // ← paste your NYC 311 Public Developers primary key between the quotes
+
+// ─────────────────────────────────────────
+// SVG ICONS
+// ─────────────────────────────────────────
+const ICON_NO_PARK_LG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;flex-shrink:0;">
   <circle cx="12" cy="12" r="10" fill="none" stroke="#C0392B" stroke-width="2"/>
   <line x1="5" y1="5" x2="19" y2="19" stroke="#C0392B" stroke-width="2.2" stroke-linecap="round"/>
 </svg>`;
 
-const NO_PARK_SMALL = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+const ICON_NO_PARK_SM = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
   <circle cx="12" cy="12" r="10" fill="none" stroke="#C0392B" stroke-width="2.5"/>
   <line x1="5" y1="5" x2="19" y2="19" stroke="#C0392B" stroke-width="2.5" stroke-linecap="round"/>
 </svg>`;
 
-const SUSPENDED_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+const ICON_SUSPENDED_LG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;flex-shrink:0;">
   <circle cx="12" cy="12" r="10" fill="none" stroke="#27500A" stroke-width="2"/>
   <polyline points="8,12 11,15 16,9" fill="none" stroke="#27500A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
 
-const SUSPENDED_LARGE_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;flex-shrink:0;">
+const ICON_SUSPENDED_SM = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
   <circle cx="12" cy="12" r="10" fill="none" stroke="#27500A" stroke-width="2"/>
   <polyline points="8,12 11,15 16,9" fill="none" stroke="#27500A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
 
-// ── Hardcoded 2026 ASP calendar (fallback) ──
-// Source: NYC DOT Official 2026 ASP Suspension Calendar
-// https://www.nyc.gov/html/dot/downloads/pdf/asp-calendar-2026.pdf
-// EXPIRES: 2026-12-25 (Christmas Day — last entry)
-const ASP_FALLBACK_EXPIRY = '2026-12-25';
+// ─────────────────────────────────────────
+// STATIC FALLBACK CALENDAR 2026
+// Source: NYC DOT https://www.nyc.gov/html/dot/downloads/pdf/asp-calendar-2026.pdf
+// Update annually when NYC publishes next year's calendar
+// ─────────────────────────────────────────
+const FALLBACK_EXPIRY = '2026-12-25';
 const ASP_FALLBACK = {
   "2026-01-01":"New Year's Day",
   "2026-01-06":"Three Kings' Day",
@@ -344,130 +349,151 @@ const ASP_FALLBACK = {
   "2026-12-25":"Christmas Day"
 };
 
-// ── ASP data ──
+// ─────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────
 let aspSuspensions = {};
-let aspLoaded = false;
-let aspSource = 'loading'; // 'live' | 'fallback' | 'expired' | 'loading'
 
-function isFallbackExpired() {
-  const today = new Date();
-  const expiry = new Date(ASP_FALLBACK_EXPIRY);
-  expiry.setHours(23,59,59);
-  return today > expiry;
-}
-
-function setASPStatus(source, cacheDate) {
-  aspSource = source;
-  const dot = document.getElementById('asp-dot');
-  const bar = document.getElementById('asp-status-bar');
-  const aspTodayCard = document.getElementById('asp-today-body');
-  const weekCardBody = document.getElementById('asp-card-body');
-
-  bar.className = 'asp-status-bar';
-  dot.className = 'asp-live-dot';
-
-  // Un-gray by default
-  if (aspTodayCard) aspTodayCard.classList.remove('asp-disabled');
-  if (weekCardBody) weekCardBody.classList.remove('asp-disabled');
-
-  if (source === 'live') {
-    dot.classList.add('live');
-    bar.classList.add('live');
-    bar.innerHTML = `<span class="asp-live-dot live"></span> Live data · NYC 311 Official API`;
-
-  } else if (source === 'cached') {
-    const dateStr = cacheDate ? cacheDate.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) : 'recently';
-    dot.classList.add('fallback');
-    bar.classList.add('fallback');
-    bar.innerHTML = `<span class="asp-live-dot fallback"></span> Saved data from ${dateStr} · NYC API temporarily unavailable`;
-
-  } else if (source === 'fallback') {
-    dot.classList.add('fallback');
-    bar.classList.add('fallback');
-    bar.innerHTML = `<span class="asp-live-dot fallback"></span> Using 2026 saved calendar · NYC API temporarily unavailable`;
-
-  } else if (source === 'expired') {
-    dot.classList.add('error');
-    bar.classList.add('error');
-    bar.innerHTML = `<span class="asp-live-dot error"></span> Calendar out of date · No API available · ASP info unavailable`;
-    if (aspTodayCard) aspTodayCard.classList.add('asp-disabled');
-    if (weekCardBody) weekCardBody.classList.add('asp-disabled');
-  }
-}
-
-const NYC311_API_KEY = '2bcbbea0802043c38f54f493346d0de3';
-const CACHE_KEY = 'dlny_asp_cache';
+// ─────────────────────────────────────────
+// CACHE HELPERS
+// ─────────────────────────────────────────
+const CACHE_KEY      = 'dlny_asp_cache';
 const CACHE_DATE_KEY = 'dlny_asp_cache_date';
 
-function saveToCache(data) {
+function saveCache(data) {
   try {
     localStorage.setItem(CACHE_KEY, JSON.stringify(data));
     localStorage.setItem(CACHE_DATE_KEY, new Date().toISOString());
-  } catch(e) { /* storage unavailable */ }
+  } catch(e) {}
 }
 
-function loadFromCache() {
+function loadCache() {
   try {
-    const raw = localStorage.getItem(CACHE_KEY);
+    const raw  = localStorage.getItem(CACHE_KEY);
     const date = localStorage.getItem(CACHE_DATE_KEY);
     if (!raw || !date) return null;
     return { data: JSON.parse(raw), date: new Date(date) };
   } catch(e) { return null; }
 }
 
-function isCacheExpired(cacheDate) {
+function cacheStale(cacheDate) {
   if (!cacheDate) return true;
-  const now = new Date();
-  const age = (now - cacheDate) / (1000 * 60 * 60 * 24); // days
-  return age > 30; // treat cache as stale after 30 days
+  return (new Date() - cacheDate) / 86400000 > 30; // >30 days old
 }
 
+function fallbackExpired() {
+  const exp = new Date(FALLBACK_EXPIRY);
+  exp.setHours(23, 59, 59);
+  return new Date() > exp;
+}
+
+// ─────────────────────────────────────────
+// ASP STATUS BAR
+// ─────────────────────────────────────────
+function setASPStatus(state, cacheDate) {
+  const dot     = document.getElementById('asp-dot');
+  const bar     = document.getElementById('asp-status-bar');
+  const todayEl = document.getElementById('asp-today-body');
+  const weekEl  = document.getElementById('asp-card-body');
+
+  // Reset classes
+  bar.className = 'asp-status-bar';
+  dot.className = 'asp-live-dot';
+  todayEl.classList.remove('asp-disabled');
+  weekEl.classList.remove('asp-disabled');
+
+  const msgs = {
+    live:     ['live',     'Live data · NYC 311 Official API'],
+    cached:   ['cached',   `Saved data from ${cacheDate ? cacheDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : 'recently'} · NYC API temporarily unavailable`],
+    fallback: ['fallback', 'Using 2026 saved calendar · NYC API temporarily unavailable'],
+    expired:  ['error',    'Calendar out of date · No API available · ASP info unavailable'],
+  };
+
+  const [cls, msg] = msgs[state] || msgs.expired;
+  dot.classList.add(cls);
+  bar.classList.add(cls);
+  bar.innerHTML = `<span class="asp-live-dot ${cls}"></span> ${msg}`;
+
+  if (state === 'expired') {
+    todayEl.classList.add('asp-disabled');
+    weekEl.classList.add('asp-disabled');
+  }
+}
+
+// ─────────────────────────────────────────
+// FETCH ASP DATA — 4-tier waterfall
+// 1. NYC 311 Official API (authenticated)
+// 2. localStorage cache (≤30 days old)
+// 3. Static 2026 fallback calendar
+// 4. Expired state — gray out blocks
+// ─────────────────────────────────────────
 async function fetchASPData() {
   try {
-    // 1. Try live API first
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000); // 5 second timeout
-    const res = await fetch('https://data.cityofnewyork.us/resource/rc75-m7u3.json?$limit=500&$order=suspended_date%20ASC', { signal: controller.signal });
-    clearTimeout(timeout);
-    if (!res.ok) throw new Error('API error');
-    const data = await res.json();
-    if (!data || data.length === 0) throw new Error('Empty');
+    if (!NYC311_API_KEY) throw new Error('No API key configured');
 
-    const live = {};
-    data.forEach(item => {
-      if (item.suspended_date && item.reason) {
-        const key = item.suspended_date.substring(0, 10);
-        live[key] = item.reason;
+    const controller = new AbortController();
+    const tid = setTimeout(() => controller.abort(), 8000);
+
+    const res = await fetch('https://api.nyc.gov/public/api/GetCalendar', {
+      signal: controller.signal,
+      headers: {
+        'Ocp-Apim-Subscription-Key': NYC311_API_KEY,
+        'Cache-Control': 'no-cache'
       }
     });
+    clearTimeout(tid);
 
-    // Success — save to cache and use live data
-    saveToCache(live);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    // Parse — API returns array of day objects
+    const days = Array.isArray(data) ? data : (data.days || data.items || []);
+    if (!days.length) throw new Error('Empty response');
+
+    const live = {};
+    days.forEach(day => {
+      const rawDate = day.today_id || day.date || day.cal_date || '';
+      if (!rawDate) return;
+      const key = rawDate.substring(0, 10);
+
+      const items = Array.isArray(day.items) ? day.items
+                  : Array.isArray(day.services) ? day.services
+                  : Object.values(day.items || day.services || {});
+
+      items.forEach(item => {
+        const type   = (item.type || item.service_name || '').toLowerCase();
+        const status = (item.status || item.status_name || '').toUpperCase();
+        const reason = item.exceptionName || item.exception_reason || item.details || 'Suspended';
+        if (type.includes('parking') && status.includes('SUSPEND')) {
+          live[key] = reason;
+        }
+      });
+    });
+
+    if (!Object.keys(live).length) throw new Error('No suspended dates parsed');
+
+    saveCache(live);
     aspSuspensions = live;
-    aspLoaded = true;
     setASPStatus('live');
 
   } catch(e) {
-    // 2. API failed — try cache
-    const cached = loadFromCache();
-    if (cached && !isCacheExpired(cached.date)) {
+    console.warn('NYC 311 API:', e.message);
+
+    // Try cache
+    const cached = loadCache();
+    if (cached && !cacheStale(cached.date)) {
       aspSuspensions = cached.data;
-      aspLoaded = true;
       setASPStatus('cached', cached.date);
 
-    } else {
-      // 3. Cache missing or stale — try static calendar
-      if (!isFallbackExpired()) {
-        aspSuspensions = { ...ASP_FALLBACK };
-        aspLoaded = true;
-        setASPStatus('fallback');
+    } else if (!fallbackExpired()) {
+      // Use static calendar
+      aspSuspensions = { ...ASP_FALLBACK };
+      setASPStatus('fallback');
 
-      } else {
-        // 4. Everything failed — gray out and warn
-        aspSuspensions = {};
-        aspLoaded = true;
-        setASPStatus('expired');
-      }
+    } else {
+      // Everything exhausted
+      aspSuspensions = {};
+      setASPStatus('expired');
     }
   }
 
@@ -475,33 +501,45 @@ async function fetchASPData() {
   renderWeek();
 }
 
+// ─────────────────────────────────────────
+// DATE HELPERS
+// ─────────────────────────────────────────
 function toKey(d) {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
-// API-driven with one hardcoded exception: Sunday is universally no ASP citywide.
+// Sunday = universally no ASP; otherwise API-driven
 function getAsp(date) {
-  const key = toKey(date);
-  if (aspSuspensions[key]) return { s: 'suspended', r: aspSuspensions[key] };
-  if (date.getDay() === 0) return { s: 'sunday', r: 'No ASP Sundays' };
-  return { s: 'effect', r: 'Move your car' };
+  if (date.getDay() === 0)         return { s: 'sunday',    r: 'No ASP Sundays' };
+  if (aspSuspensions[toKey(date)]) return { s: 'suspended', r: aspSuspensions[toKey(date)] };
+  return                                  { s: 'effect',    r: 'Move your car' };
 }
 
+// ─────────────────────────────────────────
+// CLOCK
+// ─────────────────────────────────────────
 function updateClock() {
-  const n = new Date();
-  document.getElementById('time-display').textContent = n.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+  const n   = new Date();
   const dow = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][n.getDay()];
-  document.getElementById('date-display').textContent = `${dow}, ${n.toLocaleDateString('en-US', {month:'short', day:'numeric'})}`;
-  document.getElementById('header-date').textContent = n.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+  document.getElementById('time-display').textContent =
+    n.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+  document.getElementById('date-display').textContent =
+    `${dow}, ${n.toLocaleDateString('en-US', {month:'short', day:'numeric'})}`;
+  document.getElementById('header-date').textContent =
+    n.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
 }
 
+// ─────────────────────────────────────────
+// ASP TODAY CARD
+// ─────────────────────────────────────────
 function updateTodayAsp() {
-  const a = getAsp(new Date());
+  const a    = getAsp(new Date());
   const body = document.getElementById('asp-today-body');
+
   if (a.s === 'suspended') {
     body.innerHTML = `
       <div class="no-park-symbol">
-        ${SUSPENDED_LARGE_SVG}
+        ${ICON_SUSPENDED_LG}
         <div>
           <div style="font-size:16px;font-weight:600;color:var(--asp-sus);line-height:1.2;">Suspended</div>
           <div style="font-size:12px;font-weight:500;color:var(--asp-sus);margin-top:3px;opacity:0.85;">${a.r}</div>
@@ -514,96 +552,151 @@ function updateTodayAsp() {
   } else {
     body.innerHTML = `
       <div class="no-park-symbol">
-        ${NO_PARK_SVG}
+        ${ICON_NO_PARK_LG}
         <div>
-          <div class="no-park-label" style="font-size:15px;line-height:1.2;">Alt Side Rules<br>In Effect</div>
+          <div class="no-park-label">Alt Side Rules<br>In Effect</div>
         </div>
       </div>`;
   }
 }
 
+// ─────────────────────────────────────────
+// BATTERY
+// ─────────────────────────────────────────
 async function initBattery() {
-  const p=document.getElementById('battery-pct'), f=document.getElementById('battery-fill'), s=document.getElementById('battery-status');
-  function render(lv,ch) {
-    const pct=Math.round(lv*100);
-    p.textContent=pct+'%'; f.style.width=pct+'%';
-    const c=pct>50?'#3B6D11':pct>20?'#BA7517':'#E24B4A';
-    f.style.background=c; p.style.color=c;
-    s.textContent=ch?'⚡ Charging':''; s.style.color='#BA7517';
+  const p = document.getElementById('battery-pct');
+  const f = document.getElementById('battery-fill');
+  const s = document.getElementById('battery-status');
+
+  function render(level, charging) {
+    const pct = Math.round(level * 100);
+    const color = pct > 50 ? '#3B6D11' : pct > 20 ? '#BA7517' : '#E24B4A';
+    p.textContent = pct + '%';
+    p.style.color = color;
+    f.style.width = pct + '%';
+    f.style.background = color;
+    s.textContent = charging ? '⚡ Charging' : '';
+    s.style.color = '#BA7517';
   }
+
   if ('getBattery' in navigator) {
     try {
       const b = await navigator.getBattery();
       render(b.level, b.charging);
-      b.addEventListener('levelchange', ()=>render(b.level, b.charging));
-      b.addEventListener('chargingchange', ()=>render(b.level, b.charging));
-    } catch(e) { p.textContent='N/A'; s.textContent='Unavailable'; }
-  } else { p.textContent='N/A'; s.textContent='N/A'; }
+      b.addEventListener('levelchange',   () => render(b.level, b.charging));
+      b.addEventListener('chargingchange', () => render(b.level, b.charging));
+    } catch(e) { p.textContent = 'N/A'; }
+  } else {
+    p.textContent = 'N/A';
+  }
 }
 
-let wo = 0;
-function getWeekDates(off) {
-  const t=new Date(), dow=t.getDay(), m=new Date(t);
-  m.setDate(t.getDate()-(dow===0?6:dow-1)+off*7);
-  return Array.from({length:7}, (_,i)=>{ const d=new Date(m); d.setDate(m.getDate()+i); return d; });
+// ─────────────────────────────────────────
+// WEEK VIEW
+// ─────────────────────────────────────────
+let weekOffset = 0;
+
+function getWeekDates(offset) {
+  const today = new Date();
+  const dow   = today.getDay();
+  const mon   = new Date(today);
+  mon.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1) + offset * 7);
+  return Array.from({length: 7}, (_, i) => {
+    const d = new Date(mon);
+    d.setDate(mon.getDate() + i);
+    return d;
+  });
 }
 
 function renderWeek() {
-  const grid=document.getElementById('week-grid'), lbl=document.getElementById('week-label');
-  const tk=toKey(new Date()), days=getWeekDates(wo);
-  const names=['M','T','W','T','F','S','S'];
-  const fullNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const isMobile=window.innerWidth<480;
-  lbl.textContent=wo===0?'This week':wo===1?'Next week':wo===-1?'Last week':days[0].toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const grid     = document.getElementById('week-grid');
+  const lbl      = document.getElementById('week-label');
+  const todayKey = toKey(new Date());
+  const days     = getWeekDates(weekOffset);
+  const isMobile = window.innerWidth < 480;
+  const shortNames = ['M','T','W','T','F','S','S'];
+  const longNames  = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
-  grid.innerHTML=days.map((d,i)=>{
-    const a=getAsp(d), isT=toKey(d)===tk;
-    const dayLabel=isMobile?names[i]:fullNames[i];
-    let icon, holiday='';
-    if (a.s==='suspended') {
-      icon=SUSPENDED_SVG;
-      holiday=`<div class="holiday-label">${a.r.split(' ')[0]}</div>`;
-    } else if (a.s==='sunday') {
-      icon=SUSPENDED_SVG;
-      holiday=`<div class="holiday-label" style="color:var(--text3);">No ASP</div>`;
+  lbl.textContent = weekOffset === 0  ? 'This week'
+                  : weekOffset === 1  ? 'Next week'
+                  : weekOffset === -1 ? 'Last week'
+                  : days[0].toLocaleDateString('en-US', {month:'short', day:'numeric'});
+
+  grid.innerHTML = days.map((d, i) => {
+    const a      = getAsp(d);
+    const isToday = toKey(d) === todayKey;
+    const label  = isMobile ? shortNames[i] : longNames[i];
+
+    let icon, subLabel = '';
+    if (a.s === 'suspended') {
+      icon = ICON_SUSPENDED_SM;
+      subLabel = `<div class="holiday-label">${a.r.split(' ')[0]}</div>`;
+    } else if (a.s === 'sunday') {
+      icon = ICON_SUSPENDED_SM;
+      subLabel = `<div class="holiday-label" style="color:var(--text3);">No ASP</div>`;
     } else {
-      icon=NO_PARK_SMALL;
+      icon = ICON_NO_PARK_SM;
     }
-    return `<div class="day-cell${isT?' today':''}">
-      <div class="day-name">${dayLabel}</div>
+
+    return `<div class="day-cell${isToday ? ' today' : ''}">
+      <div class="day-name">${label}</div>
       <div class="day-num">${d.getDate()}</div>
       <div class="cell-icon">${icon}</div>
-      ${holiday}
+      ${subLabel}
     </div>`;
   }).join('');
 }
 
+// ─────────────────────────────────────────
+// WEATHER
+// ─────────────────────────────────────────
 async function fetchWeather() {
-  const el=document.getElementById('weather-content');
+  const el = document.getElementById('weather-content');
   try {
-    const res=await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.0060&current=temperature_2m,weathercode,windspeed_10m,apparent_temperature&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/New_York&forecast_days=1');
-    const data=await res.json();
-    const temp=Math.round(data.current.temperature_2m), feels=Math.round(data.current.apparent_temperature), wind=Math.round(data.current.windspeed_10m), hi=Math.round(data.daily.temperature_2m_max[0]), lo=Math.round(data.daily.temperature_2m_min[0]), code=data.current.weathercode;
-    const icons={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌦️',61:'🌧️',63:'🌧️',65:'🌧️',71:'❄️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️'};
-    const descs={0:'Clear skies',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Heavy showers',82:'Thunderstorm',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
-    el.innerHTML=`<div class="weather-row"><span class="w-emoji">${icons[code]||'🌡️'}</span><div><div class="w-temp">${temp}°F</div><div class="w-desc">${descs[code]||'Unknown'}</div></div></div><div class="w-meta"><span>Feels ${feels}°</span><span>H:${hi}° L:${lo}°</span><span>${wind}mph</span></div>`;
+    const res  = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.0060&current=temperature_2m,weathercode,windspeed_10m,apparent_temperature&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/New_York&forecast_days=1');
+    const data = await res.json();
+    const { temperature_2m: temp, apparent_temperature: feels, windspeed_10m: wind, weathercode: code } = data.current;
+    const hi = data.daily.temperature_2m_max[0];
+    const lo = data.daily.temperature_2m_min[0];
+
+    const icons = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌦️',61:'🌧️',63:'🌧️',65:'🌧️',71:'❄️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️'};
+    const descs = {0:'Clear skies',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Heavy showers',82:'Thunderstorm',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
+
+    el.innerHTML = `
+      <div class="weather-row">
+        <span class="w-emoji">${icons[code] || '🌡️'}</span>
+        <div>
+          <div class="w-temp">${Math.round(temp)}°F</div>
+          <div class="w-desc">${descs[code] || 'Unknown'}</div>
+        </div>
+      </div>
+      <div class="w-meta">
+        <span>Feels ${Math.round(feels)}°</span>
+        <span>H:${Math.round(hi)}° L:${Math.round(lo)}°</span>
+        <span>${Math.round(wind)}mph</span>
+      </div>`;
   } catch(e) {
-    el.innerHTML='<span style="font-size:13px;font-weight:600;color:var(--text2);">Weather unavailable</span>';
+    el.innerHTML = '<span style="font-size:13px;font-weight:600;color:var(--text2);">Weather unavailable</span>';
   }
 }
 
+// ─────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────
+document.getElementById('prev-week').addEventListener('click', () => { weekOffset--; renderWeek(); });
+document.getElementById('next-week').addEventListener('click', () => { weekOffset++; renderWeek(); });
 window.addEventListener('resize', renderWeek);
-document.getElementById('prev-week').addEventListener('click', ()=>{wo--; renderWeek();});
-document.getElementById('next-week').addEventListener('click', ()=>{wo++; renderWeek();});
 
-updateClock(); setInterval(updateClock, 1000);
-renderWeek(); // initial render while API loads
-fetchASPData(); // fetch live — re-renders on complete
+updateClock();
+setInterval(updateClock, 1000);
+
+renderWeek();          // render immediately with fallback data
+fetchASPData();        // then try live API — re-renders on completion
 fetchWeather();
 initBattery();
 
-// Refresh ASP every 6 hours — keeps cache fresh and picks up emergency suspensions
-setInterval(fetchASPData, 6 * 60 * 60 * 1000);
+setInterval(fetchASPData, 6 * 60 * 60 * 1000);  // refresh ASP every 6 hours
+setInterval(fetchWeather, 10 * 60 * 1000);       // refresh weather every 10 minutes
 </script>
 </body>
 </html>
