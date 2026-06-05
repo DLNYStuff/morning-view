@@ -434,12 +434,18 @@ async function fetchASPData() {
     const controller = new AbortController();
     const tid = setTimeout(() => controller.abort(), 8000);
 
-    // API requires fromDate parameter — pass yesterday to ensure we get today's data
+    // API requires fromDate and toDate in YYYYMMDD format
+    // Fetch from yesterday through 90 days ahead to cover full suspension calendar
     const fromDate = new Date();
     fromDate.setDate(fromDate.getDate() - 1);
-    const fromDateStr = fromDate.toISOString().substring(0, 10); // YYYY-MM-DD
+    const toDate = new Date();
+    toDate.setDate(toDate.getDate() + 90);
 
-    const res = await fetch(`https://api.nyc.gov/public/api/GetCalendar?fromDate=${fromDateStr}`, {
+    function toAPIDate(d) {
+      return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+    }
+
+    const res = await fetch(`https://api.nyc.gov/public/api/GetCalendar?fromDate=${toAPIDate(fromDate)}&toDate=${toAPIDate(toDate)}`, {
       signal: controller.signal,
       headers: {
         'Ocp-Apim-Subscription-Key': NYC311_API_KEY,
@@ -469,10 +475,11 @@ async function fetchASPData() {
       });
     });
 
-    // Note: no suspended dates in range is valid (not an error)
     console.log('NYC 311 API: parsed', Object.keys(live).length, 'suspended dates from', days.length, 'days');
 
-    saveCache(live);
+    // Only save to cache if we got a real response with days
+    // An empty suspensions object is valid — means no suspensions in this date range
+    if (days.length > 0) saveCache(live);
     aspSuspensions = live;
     setASPStatus('live');
 
