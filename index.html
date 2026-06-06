@@ -209,37 +209,15 @@
 
 <div class="grid-top">
 
-  <!-- ASP Today — top left -->
-  <div class="card">
-    <div class="card-header hdr-amber">
-      <svg viewBox="0 0 24 24"><path d="M5 17H3a1 1 0 0 1-1-1v-4l2.5-5h11l2.5 5v4a1 1 0 0 1-1 1h-2"/><rect x="6" y="15" width="3" height="3" rx="1.5"/><rect x="15" y="15" width="3" height="3" rx="1.5"/><path d="M4.5 12h15"/></svg>
-      <span class="card-label">ASP Today</span>
-    </div>
-    <div class="card-body" id="asp-today-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
-      <div style="font-size:13px;font-weight:500;color:var(--text3);">Loading...</div>
-    </div>
-  </div>
-
-  <!-- Weather -->
-  <div class="card">
-    <div class="card-header hdr-teal">
-      <svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
-      <span class="card-label">Weather · NYC</span>
-    </div>
-    <div class="card-body">
-      <div id="weather-content" style="font-size:13px;font-weight:600;color:var(--text2);">Fetching...</div>
-    </div>
-  </div>
-
-  <!-- Phone -->
+  <!-- TOP LEFT: Phone -->
   <a href="tel:" class="card card-phone" style="text-decoration:none;">
     <div class="card-header hdr-phone">
-      <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.98-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.98-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       <span class="card-label">Phone</span>
     </div>
     <div class="phone-body">
       <div class="phone-dial">
-        <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:#ffffff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.98-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:#ffffff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.98-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       </div>
       <div class="missed-row">
         <span class="missed-label">Missed</span>
@@ -252,21 +230,44 @@
     </div>
   </a>
 
-  <!-- Time + Battery combined — top right -->
+  <!-- TOP RIGHT: ASP Today -->
+  <div class="card">
+    <div class="card-header hdr-amber">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M5 17H3a1 1 0 0 1-1-1v-4l2.5-5h11l2.5 5v4a1 1 0 0 1-1 1h-2"/><rect x="6" y="15" width="3" height="3" rx="1.5"/><rect x="15" y="15" width="3" height="3" rx="1.5"/><path d="M4.5 12h15"/></svg>
+      <span class="card-label">ASP Today</span>
+    </div>
+    <div class="card-body" id="asp-today-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <div style="font-size:13px;font-weight:500;color:var(--text3);">Loading...</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM LEFT: Time + Battery -->
   <div class="card">
     <div class="card-header hdr-blue" style="gap:2px;">
-      <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-left:1px;"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v3"/></svg>
-      <span class="card-label" style="margin-left:3px;">Time / Batt</span>
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-left:1px;"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v3"/></svg>
+      <span class="card-label" style="margin-left:2px;">Time / Batt</span>
     </div>
-    <div class="card-body">
+    <div class="card-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
       <div class="card-value" id="time-display" style="font-size:22px;">--:--</div>
       <div class="card-sub" id="date-display">Loading...</div>
-      <hr style="border:none;border-top:0.5px solid var(--border);margin:8px 0;">
+      <hr style="border:none;border-top:0.5px solid var(--border);margin:7px 0;width:100%;">
       <div style="display:flex;align-items:center;gap:7px;">
         <div id="battery-pct" style="font-size:18px;font-weight:500;color:#3B6D11;line-height:1;">—</div>
         <div class="batt-shell"><div class="batt-fill" id="battery-fill"></div></div>
         <span id="battery-status" style="font-size:18px;line-height:1;"></span>
       </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM RIGHT: Weather -->
+  <div class="card">
+    <div class="card-header hdr-teal">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+      <span class="card-label">Weather · NYC</span>
+    </div>
+    <div class="card-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <div id="weather-content" style="font-size:13px;font-weight:600;color:var(--text2);text-align:center;">Fetching...</div>
     </div>
   </div>
 
@@ -700,19 +701,27 @@ async function fetchWeather() {
     const descs = {0:'Clear skies',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Heavy showers',82:'Thunderstorm',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
 
     el.innerHTML = `
-      <div class="weather-row">
-        <span class="w-emoji">${icons[code] || '🌡️'}</span>
-        <div>
-          <div class="w-temp">${Math.round(temp)}°F</div>
-          <div class="w-desc">${descs[code] || 'Unknown'}</div>
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
+          <span style="font-size:22px;line-height:1;">${icons[code] || '🌡️'}</span>
+          <span style="font-size:22px;font-weight:500;color:var(--text);font-family:var(--mono);">${Math.round(temp)}°F</span>
         </div>
-      </div>
-      <div class="w-meta">
-        <span>Feels ${Math.round(feels)}°</span>
-        <span>H:${Math.round(hi)}° L:${Math.round(lo)}°</span>
-        <span>${Math.round(wind)}mph</span>
-        <span>Hum ${Math.round(humidity)}%</span>
-        <span style="color:${uvInfo.color}">UV ${Math.round(uv)} · ${uvInfo.label}</span>
+        <div style="font-size:11px;font-weight:500;color:var(--text2);margin-bottom:5px;">${descs[code] || 'Unknown'}</div>
+        <div style="font-size:10px;font-weight:500;color:var(--text3);margin-bottom:3px;">Feels ${Math.round(feels)}° &nbsp;·&nbsp; H:${Math.round(hi)}° L:${Math.round(lo)}°</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:10px;font-weight:500;color:var(--text3);margin-bottom:3px;">
+          <span style="display:flex;align-items:center;gap:3px;">
+            <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+            ${Math.round(wind)}mph
+          </span>
+          <span style="display:flex;align-items:center;gap:3px;">
+            <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            ${Math.round(humidity)}%
+          </span>
+        </div>
+        <div style="display:flex;align-items:center;gap:3px;font-size:10px;font-weight:600;color:${uvInfo.color};">
+          <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          UV ${Math.round(uv)} · ${uvInfo.label}
+        </div>
       </div>`;
   } catch(e) {
     el.innerHTML = '<span style="font-size:13px;font-weight:600;color:var(--text2);">Weather unavailable</span>';
