@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)">
 <title>DLNY Morning View</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -22,11 +22,11 @@
     --text2: #3a3a36;
     --text3: #6e6e68;
     --radius: 16px;
-    --font: 'DM Sans', system-ui, sans-serif;
-    --mono: 'DM Mono', monospace;
+    --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --mono: 'Plus Jakarta Sans', system-ui, sans-serif;
     --hdr-blue-bg: #B5D4F4;   --hdr-blue-fg: #0C447C;
     --hdr-teal-bg: #9FE1CB;   --hdr-teal-fg: #085041;
-    --hdr-amber-bg: #FAC775;  --hdr-amber-fg: #633806;
+    --hdr-amber-bg: #FFF176;  --hdr-amber-fg: #7A6000;
     --hdr-purple-bg: #CECBF6; --hdr-purple-fg: #3C3489;
     --hdr-green-bg: #C0DD97;  --hdr-green-fg: #27500A;
     --asp-sus: #27500A;
@@ -49,7 +49,7 @@
       --text3: #888880;
       --hdr-blue-bg: #0C447C;   --hdr-blue-fg: #B5D4F4;
       --hdr-teal-bg: #085041;   --hdr-teal-fg: #9FE1CB;
-      --hdr-amber-bg: #633806;  --hdr-amber-fg: #FAC775;
+      --hdr-amber-bg: #7A6000;  --hdr-amber-fg: #FFF176;
       --hdr-purple-bg: #3C3489; --hdr-purple-fg: #CECBF6;
       --hdr-green-bg: #27500A;  --hdr-green-fg: #C0DD97;
       --asp-sus: #C0DD97;
@@ -86,10 +86,10 @@
   #header-date { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--text3); }
 
   /* ── Top card grid ── */
-  .grid-top { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .grid-top { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; grid-auto-rows: 1fr; }
   @media (min-width: 600px) { .grid-top { grid-template-columns: repeat(4, 1fr); } }
 
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; height: 100%; }
   .card-header { padding: 9px 13px 8px; display: flex; align-items: center; gap: 6px; }
   .card-header svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
   .card-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
@@ -104,6 +104,8 @@
   .hdr-amber  { background: var(--hdr-amber-bg);  color: var(--hdr-amber-fg); }
   .hdr-purple { background: var(--hdr-purple-bg); color: var(--hdr-purple-fg); }
   .hdr-green  { background: var(--hdr-green-bg);  color: var(--hdr-green-fg); }
+  .hdr-week   { background: #FFF176; color: #7A6000; }
+  @media (prefers-color-scheme: dark) { .hdr-week { background: #7A6000; color: #FFF176; } }
 
   /* ── Weather ── */
   .weather-row { display: flex; align-items: center; gap: 8px; }
@@ -183,6 +185,20 @@
 
   /* ── Footer ── */
   footer { margin-top: 20px; text-align: center; font-size: 11px; font-weight: 500; color: var(--text3); border-top: 1px solid var(--border); padding-top: 14px; }
+
+  /* Phone block */
+  .hdr-phone { background: #C0DD97; color: #27500A; }
+  @media (prefers-color-scheme: dark) { .hdr-phone { background: #27500A; color: #C0DD97; } }
+  .phone-body { display: flex; flex-direction: column; align-items: center; padding: 10px 12px 14px; }
+  .phone-dial { display: flex; align-items: center; justify-content: center; width: 54px; height: 54px; border-radius: 50%; background: #2E7D32; margin-bottom: 12px; cursor: pointer; transition: opacity 0.15s; }
+  .phone-dial:hover { opacity: 0.85; }
+  .phone-dial i { font-size: 28px; color: #ffffff; }
+  .missed-row { display: flex; align-items: center; gap: 6px; }
+  .missed-label { font-size: 11px; font-weight: 500; color: var(--text2); }
+  .missed-count { font-size: 13px; font-weight: 700; color: #791F1F; }
+  @media (prefers-color-scheme: dark) { .missed-count { color: #F7C1C1; } }
+  .card-phone { cursor: pointer; }
+  .card-phone:active { opacity: 0.85; }
 </style>
 </head>
 <body>
@@ -194,15 +210,14 @@
 
 <div class="grid-top">
 
-  <!-- Time -->
+  <!-- ASP Today — top left -->
   <div class="card">
-    <div class="card-header hdr-blue">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      <span class="card-label">Time</span>
+    <div class="card-header hdr-amber">
+      <svg viewBox="0 0 24 24"><path d="M5 17H3a1 1 0 0 1-1-1v-4l2.5-5h11l2.5 5v4a1 1 0 0 1-1 1h-2"/><rect x="6" y="15" width="3" height="3" rx="1.5"/><rect x="15" y="15" width="3" height="3" rx="1.5"/><path d="M4.5 12h15"/></svg>
+      <span class="card-label">ASP Today</span>
     </div>
-    <div class="card-body">
-      <div class="card-value" id="time-display" style="font-family:var(--mono);font-size:22px;">--:--</div>
-      <div class="card-sub" id="date-display">Loading...</div>
+    <div class="card-body" id="asp-today-body">
+      <div style="font-size:13px;font-weight:500;color:var(--text3);">Loading...</div>
     </div>
   </div>
 
@@ -217,28 +232,39 @@
     </div>
   </div>
 
-  <!-- ASP Today -->
-  <div class="card">
-    <div class="card-header hdr-amber">
-      <svg viewBox="0 0 24 24"><path d="M5 17H3a1 1 0 0 1-1-1v-4l2.5-5h11l2.5 5v4a1 1 0 0 1-1 1h-2"/><rect x="6" y="15" width="3" height="3" rx="1.5"/><rect x="15" y="15" width="3" height="3" rx="1.5"/><path d="M4.5 12h15"/></svg>
-      <span class="card-label">ASP Today</span>
+  <!-- Phone -->
+  <a href="tel:" class="card card-phone" style="text-decoration:none;">
+    <div class="card-header hdr-phone">
+      <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.98-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span class="card-label">Phone</span>
     </div>
-    <div class="card-body" id="asp-today-body">
-      <div style="font-size:13px;font-weight:500;color:var(--text3);">Loading...</div>
+    <div class="phone-body">
+      <div class="phone-dial">
+        <i class="ti ti-phone" aria-hidden="true"></i>
+      </div>
+      <div class="missed-row">
+        <span class="missed-label">Missed calls</span>
+        <span class="missed-count" id="missed-calls">—</span>
+      </div>
     </div>
-  </div>
+  </a>
 
-  <!-- Battery -->
+  <!-- Time + Battery combined — top right -->
   <div class="card">
-    <div class="card-header hdr-purple">
+    <div class="card-header hdr-blue">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="card-label">Time &nbsp;·&nbsp;</span>
       <svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v3"/></svg>
       <span class="card-label">Battery</span>
     </div>
     <div class="card-body">
-      <div class="card-value" id="battery-pct" style="font-size:26px;font-family:var(--mono);">—</div>
-      <div class="batt-wrap">
-        <div class="batt-shell"><div class="batt-fill" id="battery-fill"></div></div>
-        <span id="battery-status"></span>
+      <div class="card-value" id="time-display" style="font-family:var(--mono);font-size:22px;">--:--</div>
+      <div class="card-sub" id="date-display">Loading...</div>
+      <hr style="border:none;border-top:0.5px solid var(--border);margin:8px 0;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;">
+        <div class="card-value" id="battery-pct" style="font-size:20px;font-family:var(--mono);margin-bottom:0;">—</div>
+        <div class="batt-shell" style="margin:0;"><div class="batt-fill" id="battery-fill"></div></div>
+        <span id="battery-status" style="font-size:11px;font-weight:600;white-space:nowrap;"></span>
       </div>
     </div>
   </div>
@@ -247,7 +273,7 @@
 
 <!-- Week view -->
 <div class="asp-card">
-  <div class="asp-card-header hdr-green">
+  <div class="asp-card-header hdr-week">
     <div class="asp-card-header-left">
       <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       Alt Side Parking
@@ -655,11 +681,21 @@ function renderWeek() {
 async function fetchWeather() {
   const el = document.getElementById('weather-content');
   try {
-    const res  = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.0060&current=temperature_2m,weathercode,windspeed_10m,apparent_temperature&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/New_York&forecast_days=1');
+    const res  = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.0060&current=temperature_2m,weathercode,windspeed_10m,apparent_temperature&daily=temperature_2m_max,temperature_2m_min,uv_index_max&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/New_York&forecast_days=1');
     const data = await res.json();
     const { temperature_2m: temp, apparent_temperature: feels, windspeed_10m: wind, weathercode: code } = data.current;
     const hi = data.daily.temperature_2m_max[0];
     const lo = data.daily.temperature_2m_min[0];
+    const uv = data.daily.uv_index_max[0];
+
+    function uvLabel(uv) {
+      if (uv <= 2) return { label: 'Low', color: '#3B6D11' };
+      if (uv <= 5) return { label: 'Moderate', color: '#BA7517' };
+      if (uv <= 7) return { label: 'High', color: '#C0392B' };
+      if (uv <= 10) return { label: 'Very High', color: '#8B008B' };
+      return { label: 'Extreme', color: '#8B0000' };
+    }
+    const uvInfo = uvLabel(Math.round(uv));
 
     const icons = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌦️',61:'🌧️',63:'🌧️',65:'🌧️',71:'❄️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️'};
     const descs = {0:'Clear skies',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Heavy showers',82:'Thunderstorm',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
@@ -676,6 +712,7 @@ async function fetchWeather() {
         <span>Feels ${Math.round(feels)}°</span>
         <span>H:${Math.round(hi)}° L:${Math.round(lo)}°</span>
         <span>${Math.round(wind)}mph</span>
+        <span style="color:${uvInfo.color}">UV ${Math.round(uv)} · ${uvInfo.label}</span>
       </div>`;
   } catch(e) {
     el.innerHTML = '<span style="font-size:13px;font-weight:600;color:var(--text2);">Weather unavailable</span>';
