@@ -71,7 +71,7 @@
   }
 
   body {
-    padding: max(12px, env(safe-area-inset-top)) 12px max(16px, env(safe-area-inset-bottom));
+    padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
     max-width: 740px;
     margin: 0 auto;
   }
@@ -91,7 +91,7 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto 1fr auto;
     gap: 9px;
-    margin-bottom: 9px;
+    margin-bottom: 0;
   }
   /* Row 1+2: half height — calls, messages, asp, tbd */
   .grid-top > *:nth-child(1),
@@ -149,7 +149,7 @@
   .no-park-label { font-size: 15px; font-weight: 600; color: var(--no-park); line-height: 1.3; }
 
   /* ── ASP Week card ── */
-  .asp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 9px; }
+  .asp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 9px; margin-bottom: 0; }
   .asp-card-header { padding: 7px 11px 6px; display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
   .asp-card-header-left { display: flex; align-items: center; gap: 5px; font-size: 9px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; }
   .asp-card-header-left svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -265,7 +265,7 @@
     </div>
   </a>
 
-  <a href="sms:" class="card card-phone" style="text-decoration:none;">
+  <a href="javascript:void(0)" onclick="try{window.location.href='intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.samsung.android.messaging;end'}catch(e){window.location.href='sms:';}" class="card card-phone" style="text-decoration:none;">
     <div class="card-header hdr-msg">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       <span class="card-label">Messages</span>
