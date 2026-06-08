@@ -94,14 +94,14 @@
     gap: 9px;
     margin-bottom: 9px;
   }
-  /* Half height cards — rows 1 and 2 */
+  /* Full height cards — row 1 (Time/Battery + Weather) */
   .grid-top > *:nth-child(1),
-  .grid-top > *:nth-child(2),
+  .grid-top > *:nth-child(2) { min-height: 118px; }
+  /* Half height cards — rows 2 and 3 */
   .grid-top > *:nth-child(3),
-  .grid-top > *:nth-child(4) { min-height: 88px; }
-  /* Full height cards — row 3 */
+  .grid-top > *:nth-child(4),
   .grid-top > *:nth-child(5),
-  .grid-top > *:nth-child(6) { min-height: 118px; }
+  .grid-top > *:nth-child(6) { min-height: 88px; }
 
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; height: 100%; }
   .card-header { padding: 7px 11px 6px; display: flex; align-items: center; gap: 5px; }
@@ -232,10 +232,10 @@
   .card-phone { cursor: pointer; }
   .card-phone:active { opacity: 0.85; }
 
-  /* Maps block */
-  .hdr-maps { background: #BBDEFB; color: #0D47A1; }
-  @media (prefers-color-scheme: dark) { .hdr-maps { background: #0D47A1; color: #BBDEFB; } }
-  .maps-btn { width: 36px; height: 36px; border-radius: 50%; background: #1565C0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  /* Maps block — purple */
+  .hdr-maps { background: #E4DAFC; color: #4A1F9C; }
+  @media (prefers-color-scheme: dark) { .hdr-maps { background: #2E1869; color: #C9B8F8; } }
+  .maps-btn { width: 36px; height: 36px; border-radius: 50%; background: #5B2DD4; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -247,7 +247,36 @@
 
 <div class="grid-top">
 
-  <!-- ROW 1: Calls | Messages -->
+  <!-- ROW 1: Time/Battery | Weather -->
+  <div class="card">
+    <div class="card-header hdr-blue" style="gap:2px;">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-left:1px;"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v3"/></svg>
+      <span class="card-label" style="margin-left:2px;">Time / Batt</span>
+    </div>
+    <div class="card-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <div class="card-value" id="time-display" style="font-size:22px;">--:--</div>
+      <div class="card-sub" id="date-display" style="font-weight:700;">Loading...</div>
+      <hr style="border:none;border-top:0.5px solid var(--border);margin:7px 0;width:100%;">
+      <div style="display:flex;align-items:center;gap:7px;">
+        <div id="battery-pct" style="font-size:18px;font-weight:500;color:#3B6D11;line-height:1;">—</div>
+        <div class="batt-shell"><div class="batt-fill" id="battery-fill"></div></div>
+        <span id="battery-status" style="font-size:18px;line-height:1;"></span>
+      </div>
+    </div>
+  </div>
+
+  <a href="https://weather.com/weather/today/l/New+York+City+NY+USNY0996:1:US" target="_blank" class="card" style="text-decoration:none;cursor:pointer;">
+    <div class="card-header hdr-teal">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+      <span class="card-label">Weather · NYC</span>
+    </div>
+    <div class="card-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+      <div id="weather-content" style="font-size:13px;font-weight:600;color:var(--text2);text-align:center;">Fetching...</div>
+    </div>
+  </a>
+
+  <!-- ROW 2: Calls | Messages -->
   <a href="tel:" class="card card-phone" style="text-decoration:none;">
     <div class="card-header hdr-phone">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.98-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -284,7 +313,7 @@
     </div>
   </a>
 
-  <!-- ROW 2: ASP Today | TBD -->
+  <!-- ROW 3: ASP Today | Navigate -->
   <div class="card">
     <div class="card-header hdr-amber">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M5 17H3a1 1 0 0 1-1-1v-4l2.5-5h11l2.5 5v4a1 1 0 0 1-1 1h-2"/><rect x="6" y="15" width="3" height="3" rx="1.5"/><rect x="15" y="15" width="3" height="3" rx="1.5"/><path d="M4.5 12h15"/></svg>
@@ -310,35 +339,6 @@
         <div style="font-size:13px;font-weight:600;color:var(--text);line-height:1.2;">Google Maps</div>
         <div style="font-size:10px;font-weight:500;color:var(--text2);margin-top:2px;">Tap to navigate</div>
       </div>
-    </div>
-  </a>
-
-  <!-- ROW 3: Time/Battery | Weather -->
-  <div class="card">
-    <div class="card-header hdr-blue" style="gap:2px;">
-      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-left:1px;"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v3"/></svg>
-      <span class="card-label" style="margin-left:2px;">Time / Batt</span>
-    </div>
-    <div class="card-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
-      <div class="card-value" id="time-display" style="font-size:22px;">--:--</div>
-      <div class="card-sub" id="date-display" style="font-weight:700;">Loading...</div>
-      <hr style="border:none;border-top:0.5px solid var(--border);margin:7px 0;width:100%;">
-      <div style="display:flex;align-items:center;gap:7px;">
-        <div id="battery-pct" style="font-size:18px;font-weight:500;color:#3B6D11;line-height:1;">—</div>
-        <div class="batt-shell"><div class="batt-fill" id="battery-fill"></div></div>
-        <span id="battery-status" style="font-size:18px;line-height:1;"></span>
-      </div>
-    </div>
-  </div>
-
-  <a href="https://weather.com/weather/today/l/New+York+City+NY+USNY0996:1:US" target="_blank" class="card" style="text-decoration:none;cursor:pointer;">
-    <div class="card-header hdr-teal">
-      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
-      <span class="card-label">Weather · NYC</span>
-    </div>
-    <div class="card-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
-      <div id="weather-content" style="font-size:13px;font-weight:600;color:var(--text2);text-align:center;">Fetching...</div>
     </div>
   </a>
 
@@ -699,12 +699,12 @@ let weekOffset = 0;
 
 function getWeekDates(offset) {
   const today = new Date();
-  const dow   = today.getDay();
-  const mon   = new Date(today);
-  mon.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1) + offset * 7);
+  const dow   = today.getDay(); // 0=Sun, 1=Mon, ...
+  const sun   = new Date(today);
+  sun.setDate(today.getDate() - dow + offset * 7);
   return Array.from({length: 7}, (_, i) => {
-    const d = new Date(mon);
-    d.setDate(mon.getDate() + i);
+    const d = new Date(sun);
+    d.setDate(sun.getDate() + i);
     return d;
   });
 }
@@ -715,8 +715,8 @@ function renderWeek() {
   const todayKey = toKey(new Date());
   const days     = getWeekDates(weekOffset);
   const isMobile = window.innerWidth < 480;
-  const shortNames = ['M','T','W','T','F','S','S'];
-  const longNames  = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const shortNames = ['S','M','T','W','T','F','S'];
+  const longNames  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
   const startMonth = days[0].toLocaleDateString('en-US', {month:'short'});
   const endMonth   = days[6].toLocaleDateString('en-US', {month:'short'});
