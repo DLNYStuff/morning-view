@@ -86,22 +86,24 @@
   #header-date { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--text3); }
 
   /* ── Top card grid ── */
+  /* Grid replaced with row-based flex for consistent spacing */
   .grid-top {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 9px;
+  }
+  .grid-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto 1fr auto;
     gap: 9px;
-    margin-bottom: 0;
   }
-  /* Row 1+2: half height — calls, messages, asp, tbd */
-  .grid-top > *:nth-child(1),
-  .grid-top > *:nth-child(2),
-  .grid-top > *:nth-child(3),
-  .grid-top > *:nth-child(4) { min-height: 88px; max-height: 96px; }
-  /* Row 3: full height — time/batt, weather */
-  .grid-top > *:nth-child(5),
-  .grid-top > *:nth-child(6) { min-height: 118px; }
-  @media (min-width: 600px) { .grid-top { grid-template-columns: repeat(4, 1fr); grid-template-rows: auto auto; } }
+  .grid-row.half > * { min-height: 88px; }
+  .grid-row.full > * { min-height: 118px; }
+  @media (min-width: 600px) {
+    .grid-top { flex-direction: row; flex-wrap: wrap; }
+    .grid-row { flex: 1 1 100%; }
+  }
 
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; height: 100%; }
   .card-header { padding: 7px 11px 6px; display: flex; align-items: center; gap: 5px; }
@@ -149,7 +151,7 @@
   .no-park-label { font-size: 15px; font-weight: 600; color: var(--no-park); line-height: 1.3; }
 
   /* ── ASP Week card ── */
-  .asp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 9px; margin-bottom: 0; }
+  .asp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 0; margin-bottom: 0; }
   .asp-card-header { padding: 7px 11px 6px; display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
   .asp-card-header-left { display: flex; align-items: center; gap: 5px; font-size: 9px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; }
   .asp-card-header-left svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -265,7 +267,7 @@
     </div>
   </a>
 
-  <a href="javascript:void(0)" onclick="try{window.location.href='intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.samsung.android.messaging;end'}catch(e){window.location.href='sms:';}" class="card card-phone" style="text-decoration:none;">
+  <a href="mmssms://" class="card card-phone" style="text-decoration:none;">
     <div class="card-header hdr-msg">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       <span class="card-label">Messages</span>
@@ -722,10 +724,13 @@ function renderWeek() {
   const shortNames = ['M','T','W','T','F','S','S'];
   const longNames  = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
-  lbl.textContent = weekOffset === 0  ? 'This week'
-                  : weekOffset === 1  ? 'Next week'
-                  : weekOffset === -1 ? 'Last week'
-                  : days[0].toLocaleDateString('en-US', {month:'short', day:'numeric'});
+  const startMonth = days[0].toLocaleDateString('en-US', {month:'short'});
+  const endMonth   = days[6].toLocaleDateString('en-US', {month:'short'});
+  const monthLabel = startMonth === endMonth ? startMonth : `${startMonth}/${endMonth}`;
+  if (weekOffset === 0)       lbl.textContent = `This week · ${monthLabel}`;
+  else if (weekOffset === 1)  lbl.textContent = `Next week · ${monthLabel}`;
+  else if (weekOffset === -1) lbl.textContent = `Last week · ${monthLabel}`;
+  else lbl.textContent = `${days[0].toLocaleDateString('en-US',{month:'short',day:'numeric'})} – ${days[6].toLocaleDateString('en-US',{month:'short',day:'numeric'})}`;
 
   grid.innerHTML = days.map((d, i) => {
     const a      = getAsp(d);
