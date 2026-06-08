@@ -157,7 +157,9 @@
 
   /* ── Week navigation ── */
   .week-nav { display: flex; align-items: center; gap: 5px; }
-  .nav-btn { background: rgba(0,0,0,0.12); border: none; border-radius: 5px; width: 22px; height: 22px; cursor: pointer; font-size: 14px; font-weight: 600; color: inherit; display: flex; align-items: center; justify-content: center; }
+  .nav-btn { background: rgba(0,0,0,0.10); border: none; border-radius: 5px; width: 22px; height: 22px; cursor: pointer; font-size: 16px; font-weight: 800; color: inherit; display: flex; align-items: center; justify-content: center; line-height: 0; padding: 0; vertical-align: middle; }
+  .nav-btn:hover { background: rgba(0,0,0,0.10); }
+  .nav-btn:active { background: rgba(0,0,0,0.10); }
   .nav-btn:hover { background: rgba(0,0,0,0.22); }
   .week-label { font-size: 10px; font-weight: 600; min-width: 52px; text-align: center; }
 
@@ -293,22 +295,23 @@
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header hdr-tbd">
-      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span class="card-label">TBD</span>
+  <a href="https://www.google.com/maps/dir/?api=1" target="_blank" class="card" style="text-decoration:none;cursor:pointer;">
+    <div class="card-header hdr-maps">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span class="card-label">Navigate</span>
     </div>
     <div class="half-body">
       <div class="half-icon">
-        <div class="tbd-circle">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div class="maps-btn">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
         </div>
       </div>
       <div class="half-content">
-        <div style="font-size:11px;font-weight:500;color:var(--text3);">Coming soon</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);line-height:1.2;">Google Maps</div>
+        <div style="font-size:10px;font-weight:500;color:var(--text2);margin-top:2px;">Tap to navigate</div>
       </div>
     </div>
-  </div>
+  </a>
 
   <!-- ROW 3: Time/Battery | Weather -->
   <div class="card">
@@ -329,7 +332,7 @@
     </div>
   </div>
 
-  <div class="card">
+  <a href="https://weather.com/weather/today/l/New+York+City+NY+USNY0996:1:US" target="_blank" class="card" style="text-decoration:none;cursor:pointer;">
     <div class="card-header hdr-teal">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
       <span class="card-label">Weather · NYC</span>
@@ -337,7 +340,7 @@
     <div class="card-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
       <div id="weather-content" style="font-size:13px;font-weight:600;color:var(--text2);text-align:center;">Fetching...</div>
     </div>
-  </div>
+  </a>
 
 </div>
 
@@ -525,10 +528,7 @@ function setASPStatus(state, cacheDate) {
 // ─────────────────────────────────────────
 async function fetchASPData() {
   try {
-    const controller = new AbortController();
-    const tid = setTimeout(() => controller.abort(), 8000);
-
-    // API requires fromDate and toDate in YYYYMMDD format
+    // API requires fromDate and toDate in YYYY-MM-DD format
     // Fetch from yesterday through 90 days ahead to cover full suspension calendar
     const fromDate = new Date();
     fromDate.setDate(fromDate.getDate() - 1);
@@ -540,10 +540,7 @@ async function fetchASPData() {
     }
 
     // Route through Cloudflare Worker proxy to bypass CORS
-    const res = await fetch(`https://nyc-asp-proxy.dlopenzina.workers.dev/?fromdate=${toAPIDate(fromDate)}&todate=${toAPIDate(toDate)}`, {
-      signal: controller.signal
-    });
-    clearTimeout(tid);
+    const res = await fetch(`https://nyc-asp-proxy.dlopenzina.workers.dev/?fromdate=${toAPIDate(fromDate)}&todate=${toAPIDate(toDate)}`);
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
