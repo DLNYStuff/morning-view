@@ -88,20 +88,20 @@
   /* ── Top card grid ── */
   /* Grid replaced with row-based flex for consistent spacing */
   .grid-top {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
     gap: 9px;
     margin-bottom: 9px;
   }
-  .grid-row {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 9px;
-    width: 100%;
-  }
-  .grid-row.half { grid-auto-rows: 88px; }
-  .grid-row.full { grid-auto-rows: 118px; }
-  .grid-row > * { height: 100%; }
+  /* Half height cards — rows 1 and 2 */
+  .grid-top > *:nth-child(1),
+  .grid-top > *:nth-child(2),
+  .grid-top > *:nth-child(3),
+  .grid-top > *:nth-child(4) { min-height: 88px; }
+  /* Full height cards — row 3 */
+  .grid-top > *:nth-child(5),
+  .grid-top > *:nth-child(6) { min-height: 118px; }
 
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; height: 100%; }
   .card-header { padding: 7px 11px 6px; display: flex; align-items: center; gap: 5px; }
@@ -265,7 +265,7 @@
     </div>
   </a>
 
-  <a href="mmssms://" class="card card-phone" style="text-decoration:none;">
+  <a href="sms:" onclick="openMessages(event)" class="card card-phone" style="text-decoration:none;">
     <div class="card-header hdr-msg">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       <span class="card-label">Messages</span>
@@ -809,6 +809,28 @@ async function fetchWeather() {
   } catch(e) {
     el.innerHTML = '<span style="font-size:13px;font-weight:600;color:var(--text2);">Weather unavailable</span>';
   }
+}
+
+// ─────────────────────────────────────────
+// MESSAGES OPENER
+// ─────────────────────────────────────────
+function openMessages(e) {
+  e.preventDefault();
+  // Try Samsung Messages directly first
+  const attempts = [
+    'sms:',
+    'android-app://com.samsung.android.messaging',
+  ];
+  // Use a small delay between attempts
+  let i = 0;
+  function tryNext() {
+    if (i < attempts.length) {
+      window.location.href = attempts[i];
+      i++;
+      setTimeout(tryNext, 500);
+    }
+  }
+  tryNext();
 }
 
 // ─────────────────────────────────────────
